@@ -66,11 +66,11 @@ class EnginePipeline:
         ledger = ledger if ledger is not None else build_ledger(dataset.events, dataset.profiles, dataset.fx)
         self.ledger = patch_blank_amounts(ledger, evidence.amount_overrides()) if evidence else ledger
 
-    def run_request(self, request: PurchaseRequest) -> RequestResult:
+    def run_request(self, request: PurchaseRequest, knobs: EngineKnobs | None = None) -> RequestResult:
         if self.tracer is None:
-            return self._run(request)
+            return self._run(request, knobs)
         with self.tracer.span("request.decide", request_id=request.request_id) as span:
-            result = self._run(request)
+            result = self._run(request, knobs)
             span.set_attributes(
                 **{
                     "decision.status": result.row.affordability_status.value,
@@ -82,7 +82,7 @@ class EnginePipeline:
             )
             return result
 
-    def _run(self, request: PurchaseRequest) -> RequestResult:
+    def _run(self, request: PurchaseRequest, knobs: EngineKnobs | None = None) -> RequestResult:
         dataset = self.dataset
         profile = dataset.profiles[request.user_id]
         options = dataset.options_by_request.get(request.request_id, [])
@@ -90,7 +90,7 @@ class EnginePipeline:
         adjustments = (
             resolve_adjustments(self.evidence.facts_for_user(request.user_id), request, entries) if self.evidence else None
         )
-        decision = decide(request, profile, options, entries, self.knobs, adjustments)
+        decision = decide(request, profile, options, entries, knobs or self.knobs, adjustments)
         row = OutputRow.from_decision(decision, explain(decision))
         violations = check_output_row(row, request, profile, options, dataset.events_by_id)
         if not violations:

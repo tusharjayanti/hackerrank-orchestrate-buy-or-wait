@@ -29,11 +29,11 @@ class LLMError(RuntimeError):
     """An LLM call failed or returned nothing usable; callers fall back to deterministic behaviour."""
 
 
-def _canonical_json(value: Any) -> str:
+def canonical_json(value: Any) -> str:
     return json.dumps(value, sort_keys=True, default=str, separators=(",", ":"))
 
 
-def _usage_dict(usage: Any) -> dict[str, int]:
+def usage_dict(usage: Any) -> dict[str, int]:
     return {name: int(getattr(usage, name, 0) or 0) for name in _USAGE_FIELDS}
 
 
@@ -74,7 +74,7 @@ class LLMClient:
             "output_config": {"effort": effort},
         }
         prompt_sha = hashlib.sha256(
-            _canonical_json(
+            canonical_json(
                 {"params": params, "schema": output_model.model_json_schema(), "prompt_version": prompt_version}
             ).encode()
         ).hexdigest()
@@ -110,7 +110,7 @@ class LLMClient:
                 error = f"stop_reason={response.stop_reason}"
             elif parsed is None:
                 error = "response had no parsed output"
-            usage = _usage_dict(response.usage)
+            usage = usage_dict(response.usage)
             self._record(
                 span,
                 purpose=purpose,
@@ -128,7 +128,7 @@ class LLMClient:
 
             cache_path.parent.mkdir(parents=True, exist_ok=True)
             cache_path.write_text(
-                _canonical_json(
+                canonical_json(
                     {
                         "output": parsed.model_dump(mode="json"),
                         "usage": usage,
@@ -144,7 +144,7 @@ class LLMClient:
     def create(self, *, purpose: str, prompt_version: str, request_id: str | None = None, **params: Any) -> Any:
         """Uncached Messages API call (agent tool-use turns)."""
         params = {"model": self.model, **params}
-        prompt_sha = hashlib.sha256(_canonical_json({"params": params, "prompt_version": prompt_version}).encode()).hexdigest()
+        prompt_sha = hashlib.sha256(canonical_json({"params": params, "prompt_version": prompt_version}).encode()).hexdigest()
         with self._run.tracer.span(f"llm.{purpose}", request_id=request_id, **self._request_attributes(purpose)) as span:
             started = time.perf_counter()
             try:
@@ -157,13 +157,20 @@ class LLMClient:
                 purpose=purpose,
                 prompt_version=prompt_version,
                 prompt_sha=prompt_sha,
-                usage=_usage_dict(response.usage),
+                usage=usage_dict(response.usage),
                 response_model=response.model,
                 response_id=response.id,
                 stop_reason=response.stop_reason,
                 latency_ms=(time.perf_counter() - started) * 1000,
             )
             return response
+
+    def record_replay(
+        self, *, purpose: str, prompt_version: str, prompt_sha: str, usage: dict[str, int], request_id: str | None = None
+    ) -> None:
+        """Record a call whose result was replayed from a higher-level cache (e.g. a whole agent conversation)."""
+        with self._run.tracer.span(f"llm.{purpose}", request_id=request_id, **self._request_attributes(purpose)) as span:
+            self._record(span, purpose=purpose, prompt_version=prompt_version, prompt_sha=prompt_sha, usage=usage, cached_replay=True)
 
     def _request_attributes(self, purpose: str) -> dict[str, Any]:
         return {
