@@ -10,7 +10,7 @@ from datetime import UTC, datetime
 from pathlib import Path
 
 from ..schemas.obs import LLMCallRecord
-from .pricing import CACHE_READ_MULTIPLIER, CACHE_WRITE_MULTIPLIER, PRICES
+from .pricing import BATCH_DISCOUNT, CACHE_READ_MULTIPLIER, CACHE_WRITE_MULTIPLIER, PRICES
 
 
 def load_llm_calls(path: Path) -> list[LLMCallRecord]:
@@ -83,6 +83,7 @@ def build_usage_report(
         f"- Providers: {', '.join(sorted({call.provider for call in calls})) or 'none'}",
         f"- Models: {', '.join(sorted({call.model for call in calls})) or 'none'}",
         f"- Live model calls: {len(live)} ({len(failed)} failed); replayed from cache: {len(replayed)}",
+        *([f"- Batch API calls: {sum(call.batch for call in live)} of {len(live)} (billed at {BATCH_DISCOUNT:.0%} of list price)"] if any(call.batch for call in live) else []),
         "",
         "## Overall (live calls)",
         "",
@@ -109,7 +110,7 @@ def build_usage_report(
         "",
         "| Purpose | Calls | Input | Cache write | Cache read | Output | Total | Est. cost |",
         "|---|---|---|---|---|---|---|---|",
-        *_grouped_rows(live, lambda call: (call.purpose,)),
+        *_grouped_rows(live, lambda call: (f"{call.purpose} (batch)" if call.batch else call.purpose,)),
         "",
     ]
     if replayed:
@@ -124,7 +125,8 @@ def build_usage_report(
         "## Pricing assumptions",
         "",
         "Anthropic first-party list prices, USD per million tokens. "
-        f"Cache writes are billed at {CACHE_WRITE_MULTIPLIER}x input and cache reads at {CACHE_READ_MULTIPLIER}x input.",
+        f"Cache writes are billed at {CACHE_WRITE_MULTIPLIER}x input and cache reads at {CACHE_READ_MULTIPLIER}x input; "
+        f"Message Batches API calls at {BATCH_DISCOUNT:.0%} of these prices.",
         "",
         "| Model | Input | Output |",
         "|---|---|---|",

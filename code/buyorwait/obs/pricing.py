@@ -6,6 +6,7 @@ from dataclasses import dataclass
 
 CACHE_WRITE_MULTIPLIER = 1.25  # 5-minute cache writes
 CACHE_READ_MULTIPLIER = 0.10
+BATCH_DISCOUNT = 0.50  # Message Batches API price relative to synchronous calls
 
 
 @dataclass(frozen=True)
@@ -22,7 +23,12 @@ PRICES: dict[str, ModelPrice] = {
 
 
 def estimate_cost_usd(
-    model: str, input_tokens: int, output_tokens: int, cache_creation_input_tokens: int = 0, cache_read_input_tokens: int = 0
+    model: str,
+    input_tokens: int,
+    output_tokens: int,
+    cache_creation_input_tokens: int = 0,
+    cache_read_input_tokens: int = 0,
+    batch: bool = False,
 ) -> float | None:
     price = PRICES.get(model)
     if price is None:
@@ -32,4 +38,5 @@ def estimate_cost_usd(
         + cache_creation_input_tokens * CACHE_WRITE_MULTIPLIER
         + cache_read_input_tokens * CACHE_READ_MULTIPLIER
     ) * price.input_per_mtok
-    return (input_cost + output_tokens * price.output_per_mtok) / 1_000_000
+    cost = (input_cost + output_tokens * price.output_per_mtok) / 1_000_000
+    return cost * BATCH_DISCOUNT if batch else cost

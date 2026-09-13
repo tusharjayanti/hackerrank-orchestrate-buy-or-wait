@@ -26,6 +26,10 @@ class Settings(BaseSettings):
     # "ambiguous": call the agent only where the engine simulated alternative readings; "all": every request.
     agent_scope: Literal["ambiguous", "all"] = "ambiguous"
     concurrency: int = 6
+    # Read messages and images through the Message Batches API (50% price, asynchronous, synchronous fallback).
+    evidence_batch: bool = False
+    batch_poll_seconds: float = 15.0
+    batch_timeout_seconds: float = 1500.0
 
     forecast_horizon_days: int = 90
 

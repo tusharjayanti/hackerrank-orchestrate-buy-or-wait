@@ -61,6 +61,7 @@ class LLMCallRecord(BaseModel):
     prompt_version: str
     prompt_sha256: str
     cached_replay: bool = False
+    batch: bool = False
     error: str | None = None
 
     @property

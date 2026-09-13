@@ -24,6 +24,7 @@ have it write the explanation for every other request.
 
 ```bash
 .venv/bin/python code/main.py --fresh --run-id final   # full run: evidence + engine + agent -> output.csv
+.venv/bin/python code/main.py --fresh --batch-evidence --run-id final   # same, evidence via the Message Batches API (50% cost)
 .venv/bin/python code/main.py                          # same, reusing cached LLM results (free, deterministic)
 .venv/bin/python code/main.py --mode engine            # engine + evidence, template explanations
 .venv/bin/python code/main.py --no-evidence --mode engine   # no LLM calls at all

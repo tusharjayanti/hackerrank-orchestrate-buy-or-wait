@@ -54,12 +54,15 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--knobs", type=Path, default=None, help="JSON file with EngineKnobs overrides")
     parser.add_argument("--no-evidence", action="store_true", help="skip Claude evidence extraction")
     parser.add_argument("--fresh", action="store_true", help="bypass the LLM result caches")
+    parser.add_argument("--batch-evidence", action="store_true", help="read messages and images via the Message Batches API (50%% cost)")
     parser.add_argument("--run-id", default=None, help="override the generated run id")
     args = parser.parse_args(argv)
 
     settings = Settings()
     if args.fresh:
         settings = settings.model_copy(update={"cache_dir": settings.runs_dir / "_fresh_cache" / (args.run_id or "latest")})
+    if args.batch_evidence:
+        settings = settings.model_copy(update={"evidence_batch": True})
     knobs = EngineKnobs.model_validate_json(args.knobs.read_text()) if args.knobs else EngineKnobs()
     run = RunContext.create(settings.runs_dir, args.run_id)
     configure_logging(run.run_dir)

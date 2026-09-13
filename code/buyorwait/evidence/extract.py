@@ -1,16 +1,16 @@
-"""Run Claude extraction over every message and image concurrently, then validate each result."""
+"""Run Claude extraction over every message and image, synchronously or through the Message Batches API, then validate."""
 
 from __future__ import annotations
 
 import base64
-from collections import defaultdict
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from dataclasses import dataclass, field
 from decimal import Decimal
+from typing import Any
 
 from ..config import Settings
 from ..ingest.loaders import Dataset
-from ..obs.llm_client import LLMClient, LLMError
+from ..obs.llm_client import LLMClient, LLMError, StructuredJob
 from ..obs.logging import get_logger
 from ..obs.run_context import RunContext
 from ..obs.tracing import submit_in_context
@@ -46,25 +46,49 @@ class EvidenceExtractor:
         self.settings = settings
         self.dataset = dataset
         self.run = run
+        self._record_replays = True
 
     def extract_all(self) -> EvidenceStore:
         store = EvidenceStore()
-        with self.run.tracer.span(
-            "evidence.extract", **{"evidence.messages": len(self.dataset.messages), "evidence.images": len(self.dataset.images)}
-        ), ThreadPoolExecutor(max_workers=self.settings.concurrency) as pool:
-            futures = [submit_in_context(pool, self._message, message) for message in self.dataset.messages]
-            futures += [submit_in_context(pool, self._image, image) for image in self.dataset.images]
-            for future in as_completed(futures):
-                review = future.result()
-                store.reviews[review.source_id] = review
-                self.run.evidence.write(review)
-                self.run.record_violations(review.violations)
+        attributes = {
+            "evidence.messages": len(self.dataset.messages),
+            "evidence.images": len(self.dataset.images),
+            "evidence.batch": self.settings.evidence_batch,
+        }
+        with self.run.tracer.span("evidence.extract", **attributes):
+            if self.settings.evidence_batch:
+                self._prefill_with_batch()
+            with ThreadPoolExecutor(max_workers=self.settings.concurrency) as pool:
+                futures = [submit_in_context(pool, self._message, message) for message in self.dataset.messages]
+                futures += [submit_in_context(pool, self._image, image) for image in self.dataset.images]
+                for future in as_completed(futures):
+                    review = future.result()
+                    store.reviews[review.source_id] = review
+                    self.run.evidence.write(review)
+                    self.run.record_violations(review.violations)
         rejected = sum(1 for review in store.reviews.values() for v in review.violations if v.severity is Severity.ERROR)
         logger.info(
             "evidence extracted",
             extra={"fields": {"sources": len(store.reviews), "accepted_facts": sum(len(r.accepted) for r in store.reviews.values()), "error_violations": rejected}},
         )
         return store
+
+    def _prefill_with_batch(self) -> None:
+        """Submit every extraction as one Message Batch; anything the batch does not return is called synchronously."""
+        jobs = [StructuredJob(custom_id=f"msg-{message.message_id}", **self._message_call(message)) for message in self.dataset.messages]
+        for image in self.dataset.images:
+            for index, call in enumerate(self._image_calls(image) or []):
+                jobs.append(StructuredJob(custom_id=f"img-{image.image_id}-{index}", **call))
+        outcome = self.llm.parse_batch(
+            jobs, poll_seconds=self.settings.batch_poll_seconds, timeout_seconds=self.settings.batch_timeout_seconds
+        )
+        # Results the batch just cached are already recorded as billed batch calls; don't record them again as replays.
+        self._record_replays = False
+        fallback = sorted(custom_id for custom_id, ok in outcome.items() if not ok)
+        logger.info(
+            "evidence batch finished",
+            extra={"fields": {"jobs": len(jobs), "cached": len(jobs) - len(fallback), "synchronous_fallback": fallback[:20]}},
+        )
 
     def _context(self, user_id: str, related_event_id: str | None) -> str:
         profile = self.dataset.profiles[user_id]
@@ -78,7 +102,7 @@ class EvidenceExtractor:
             )
         return "\n".join(lines)
 
-    def _message(self, message: Message) -> EvidenceReview:
+    def _message_call(self, message: Message) -> dict[str, Any]:
         prompt = (
             "Trusted context from the bank's records:\n"
             f"- message_id: {message.message_id}\n- source_type: {message.source_type}\n- sent_on: {message.sent_at.date()}\n"
@@ -86,28 +110,24 @@ class EvidenceExtractor:
             f'<untrusted_message id="{message.message_id}">\n{message.message_text}\n</untrusted_message>\n\n'
             "Extract the financial facts from this message."
         )
-        try:
-            extraction = self.llm.parse(
-                purpose="evidence.message",
-                output_model=MessageExtraction,
-                system=MESSAGE_SYSTEM,
-                messages=[{"role": "user", "content": prompt}],
-                prompt_version=MESSAGE_PROMPT_VERSION,
-                effort=self.settings.message_effort,
-                max_tokens=6000,
-                request_id=message.request_id,
-            )
-        except LLMError as exc:
-            return _failed(message.message_id, "message", message.user_id, message.request_id, str(exc))
-        return review_message(extraction, message, self.dataset.profiles[message.user_id], self.dataset.fx)
+        return dict(
+            purpose="evidence.message",
+            output_model=MessageExtraction,
+            system=MESSAGE_SYSTEM,
+            messages=[{"role": "user", "content": prompt}],
+            prompt_version=MESSAGE_PROMPT_VERSION,
+            effort=self.settings.message_effort,
+            max_tokens=6000,
+            request_id=message.request_id,
+        )
 
-    def _image(self, image: ImageRef) -> EvidenceReview:
+    def _image_calls(self, image: ImageRef) -> list[dict[str, Any]] | None:
         event = self.dataset.events_by_id.get(image.related_event_id or "")
         path = self.dataset.image_path(image)
         if event is None or not path.exists():
-            return _failed(image.image_id, "image", image.user_id, image.request_id, "image file or linked event missing")
+            return None
         data = base64.standard_b64encode(path.read_bytes()).decode("ascii")
-        reads: list[ImageExtraction] = []
+        calls = []
         for system, version in zip((IMAGE_SYSTEM_A, IMAGE_SYSTEM_B), IMAGE_PROMPT_VERSIONS):
             content = [
                 {"type": "image", "source": {"type": "base64", "media_type": "image/png", "data": data}},
@@ -117,19 +137,36 @@ class EvidenceExtractor:
                     f"{self._context(image.user_id, image.related_event_id)}\n\nReturn the amount for the linked event.",
                 },
             ]
-            try:
-                reads.append(
-                    self.llm.parse(
-                        purpose="evidence.image",
-                        output_model=ImageExtraction,
-                        system=system,
-                        messages=[{"role": "user", "content": content}],
-                        prompt_version=version,
-                        effort=self.settings.image_effort,
-                        max_tokens=8000,
-                        request_id=image.request_id,
-                    )
+            calls.append(
+                dict(
+                    purpose="evidence.image",
+                    output_model=ImageExtraction,
+                    system=system,
+                    messages=[{"role": "user", "content": content}],
+                    prompt_version=version,
+                    effort=self.settings.image_effort,
+                    max_tokens=8000,
+                    request_id=image.request_id,
                 )
+            )
+        return calls
+
+    def _message(self, message: Message) -> EvidenceReview:
+        try:
+            extraction = self.llm.parse(**self._message_call(message), record_replay=self._record_replays)
+        except LLMError as exc:
+            return _failed(message.message_id, "message", message.user_id, message.request_id, str(exc))
+        return review_message(extraction, message, self.dataset.profiles[message.user_id], self.dataset.fx)
+
+    def _image(self, image: ImageRef) -> EvidenceReview:
+        calls = self._image_calls(image)
+        event = self.dataset.events_by_id.get(image.related_event_id or "")
+        if calls is None or event is None:
+            return _failed(image.image_id, "image", image.user_id, image.request_id, "image file or linked event missing")
+        reads: list[ImageExtraction] = []
+        for call in calls:
+            try:
+                reads.append(self.llm.parse(**call, record_replay=self._record_replays))
             except LLMError as exc:
                 logger.error("image read failed", extra={"fields": {"image_id": image.image_id, "error": str(exc)}})
         if not reads:
