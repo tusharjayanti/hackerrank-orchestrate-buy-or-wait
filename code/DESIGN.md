@@ -358,3 +358,32 @@ Dependencies: `anthropic`, `pydantic>=2`, `pydantic-settings`, `python-dotenv`, 
 2. **Authority:** the engine decides; the agent only handles flagged ambiguities (choosing among engine-simulated scenarios) and writes explanations.
 3. **Evidence extraction:** Claude structured output (Pydantic schemas in §4.2) with a disk cache and guardrails G2 and G3.
 4. **Tracing:** local JSONL only. Spans use an OpenTelemetry-compatible shape so an OTLP exporter can be added later (§7).
+
+---
+
+## 11. Implementation status and results (2026-09-13)
+
+| Phase | Status | Commit |
+|---|---|---|
+| P1 schemas, ingestion, observability | done | `370ae21` |
+| P2 engine, output contract, eval harness | done | `f6f44a5` |
+| P3 evidence interpreter + G2/G3 | done | `317bdbe` |
+| P5 agent + G5, LLM-as-judge scenarios | done | `4679c48`, `ed8eb8e` |
+| Eval sets S2/S3b/S4/S5, resolver + image fixes | done | `0378c3b` |
+| P4 calibration | partial: stale cutoff 1.5, median estimator; variable-spending convention not reproduced | - |
+
+**Sample scores (S1, 25 solved samples):** composite 0.693 — status 0.80, method 0.84, plan 0.80, earliest date 0.76,
+spending changes 0.84, amount_safe_to_pay 0.12 (the answer key's variable-spending estimate is not reproduced).
+
+**Eval sets:** S2 synthetic 12/12; S3b metamorphic 0 violations over all requests; S4 evidence gold: forecast facts
+precision 0.990 / recall 1.000, amounts and dates 1.000; S5 red team 14/14 attacks blocked, 0 rows changed by
+no-effect facts.
+
+**LLM-as-judge:** the agent chooses between engine-simulated readings when data is ambiguous — possible duplicate
+charges, whether reduced/temporary pay continues beyond the named payroll, and whether an undated confirmed one-time
+amount is counted — using the conflict rules (explicit amendment > newer record > settled > financially safer).
+
+**Final run (final-2, commit `0378c3b`):** 508 claude-sonnet-5 calls, 1.84M tokens, about $5.53 ($0.022 per request); 250/250 agent submissions accepted, 0 fallbacks, 0 contract violations.
+
+**Known limitations:** amount_safe_to_pay rarely matches the samples exactly; images whose two reads agree on a wrong
+digit cannot be caught by read agreement; new recurring expenses without an amount (e.g. childcare) are not invented.
