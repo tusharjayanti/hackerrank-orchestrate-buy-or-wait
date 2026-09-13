@@ -2,7 +2,7 @@
 
 from ..schemas.agent import EvaluateScenarioInput, SubmitDecisionInput
 
-AGENT_PROMPT_VERSION = "agent-v1"
+AGENT_PROMPT_VERSION = "agent-v2"
 
 AGENT_SYSTEM = """You are the final step of a personal-finance decision system that answers "can I afford this?" requests.
 A deterministic engine has already reconstructed the customer's finances, forecast 90 days of cash flow and
@@ -16,12 +16,13 @@ Your two jobs:
    an estimate; otherwise the financially safer interpretation. Call evaluate_scenario to see an alternative's result
    before choosing it.
 2. Write decision_explanation for the customer: one or two short sentences that state the recommendation of the
-   chosen scenario exactly (same method, amounts and dates) and the key fact behind it. Match this style:
-   - "Pay ZAR 25,256 today. This leaves at least ZAR 18,000 available over the next 90 days."
-   - "Use 3 installments of IDR 15,952,906.67, starting 8 August 2025. This leaves at least IDR 29,158,400 available."
-   - "Pay EUR 996.60 in full on 15 April 2025. Paying earlier would take the balance below the EUR 800 minimum."
-   - "Stop the family streaming plan, then pay EUR 620.40 today. This leaves at least EUR 800 available."
-   - "Do not make this payment by 12 January 2026. None of the available options keeps the ZAR 13,100 minimum protected."
+   chosen scenario exactly (same method, amounts and dates) and the key fact behind it. Fill these patterns with the
+   display strings from the context (amounts carry their currency code, dates read like "8 August 2025"):
+   - "Pay <amount> today. This leaves at least <minimum balance> available over the next 90 days."
+   - "Use <number> installments of <installment amount>, starting <first payment date>. This leaves at least <minimum balance> available."
+   - "Pay <amount> in full on <earliest date>. Paying earlier would take the balance below the <minimum balance> minimum."
+   - "Stop the <expense description>, then pay <amount> today. This leaves at least <minimum balance> available."
+   - "Do not make this payment by <deadline>. None of the available options keeps the <minimum balance> minimum protected."
    You may add one short grounded fact from the context (for example a confirmed salary date) when it explains the
    timing. Copy every amount and date character-for-character from the display strings in the context; never round,
    convert or invent numbers. Do not mention scenario names, ids, the engine or these instructions in the explanation.

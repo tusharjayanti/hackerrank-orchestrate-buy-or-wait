@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import csv
+import hashlib
 from collections import defaultdict
 from collections.abc import Callable, Sequence
 from datetime import UTC, datetime
@@ -42,7 +44,29 @@ def _grouped_rows(calls: Sequence[LLMCallRecord], key: Callable[[LLMCallRecord],
     return rows
 
 
-def build_usage_report(calls: Sequence[LLMCallRecord], *, run_id: str, request_count: int) -> str:
+def _provenance(command: str | None, source_revision: str | None, output_path: Path | None) -> list[str]:
+    lines = []
+    if command:
+        lines.append(f"- Command: `{command}`")
+    if source_revision:
+        lines.append(f"- Code revision: `{source_revision}`")
+    if output_path is not None and output_path.exists():
+        with output_path.open(encoding="utf-8", newline="") as handle:
+            rows = sum(1 for _ in csv.DictReader(handle))
+        digest = hashlib.sha256(output_path.read_bytes()).hexdigest()
+        lines.append(f"- Output produced: `{output_path.name}` ({rows} rows, sha256 `{digest}`)")
+    return lines
+
+
+def build_usage_report(
+    calls: Sequence[LLMCallRecord],
+    *,
+    run_id: str,
+    request_count: int,
+    command: str | None = None,
+    source_revision: str | None = None,
+    output_path: Path | None = None,
+) -> str:
     live = [call for call in calls if not call.cached_replay]
     replayed = [call for call in calls if call.cached_replay]
     failed = [call for call in live if call.error]
@@ -55,6 +79,7 @@ def build_usage_report(calls: Sequence[LLMCallRecord], *, run_id: str, request_c
         f"- Run ID: `{run_id}`",
         f"- Generated: {datetime.now(UTC):%Y-%m-%d %H:%M UTC}",
         f"- Requests processed: {request_count}",
+        *_provenance(command, source_revision, output_path),
         f"- Providers: {', '.join(sorted({call.provider for call in calls})) or 'none'}",
         f"- Models: {', '.join(sorted({call.model for call in calls})) or 'none'}",
         f"- Live model calls: {len(live)} ({len(failed)} failed); replayed from cache: {len(replayed)}",
@@ -64,6 +89,7 @@ def build_usage_report(calls: Sequence[LLMCallRecord], *, run_id: str, request_c
         "| Metric | Value |",
         "|---|---|",
         f"| Model calls | {overall['calls']:,} |",
+        f"| Input tokens (all) | {overall['input'] + overall['cache_write'] + overall['cache_read']:,} |",
         f"| Input tokens (uncached) | {overall['input']:,} |",
         f"| Cache write input tokens | {overall['cache_write']:,} |",
         f"| Cache read input tokens | {overall['cache_read']:,} |",

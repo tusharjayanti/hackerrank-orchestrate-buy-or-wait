@@ -12,12 +12,14 @@ Usage (from the repo root):
 from __future__ import annotations
 
 import argparse
+import subprocess
+import sys
 from collections import Counter
 from pathlib import Path
 
 from buyorwait.agent.loop import DecisionAgent
 from buyorwait.agent.runner import AgentRunner
-from buyorwait.config import Settings
+from buyorwait.config import REPO_ROOT, Settings
 from buyorwait.engine.knobs import EngineKnobs
 from buyorwait.evals.suites import run_invariants
 from buyorwait.evidence.extract import EvidenceExtractor
@@ -33,6 +35,16 @@ from buyorwait.pipeline import EnginePipeline
 from buyorwait.schemas.enums import Severity
 
 logger = get_logger("main")
+
+
+def source_revision() -> str | None:
+    """Git commit of the code that ran, flagged when code/ has uncommitted changes."""
+    try:
+        commit = subprocess.run(["git", "rev-parse", "--short", "HEAD"], cwd=REPO_ROOT, capture_output=True, text=True, check=True).stdout.strip()
+        dirty = subprocess.run(["git", "status", "--porcelain", "--", "code"], cwd=REPO_ROOT, capture_output=True, text=True, check=True).stdout.strip()
+    except (OSError, subprocess.CalledProcessError):
+        return None
+    return f"{commit} (with uncommitted changes in code/)" if dirty else commit
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -107,7 +119,14 @@ def main(argv: list[str] | None = None) -> int:
                 invariant_violations = run_invariants(dataset, settings.output_path)
             run.record_violations(invariant_violations)
 
-    report = build_usage_report(load_llm_calls(run.llm_calls.path), run_id=run.run_id, request_count=len(rows))
+    report = build_usage_report(
+        load_llm_calls(run.llm_calls.path),
+        run_id=run.run_id,
+        request_count=len(rows),
+        command="python code/main.py " + " ".join(sys.argv[1:] if argv is None else argv),
+        source_revision=source_revision(),
+        output_path=settings.output_path if rows else None,
+    )
     (run.run_dir / "usage_report.md").write_text(report, encoding="utf-8")
 
     severities = Counter(violation.severity.value for violation in violations)
