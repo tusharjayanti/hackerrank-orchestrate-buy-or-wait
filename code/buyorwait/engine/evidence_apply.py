@@ -52,6 +52,11 @@ def _apply_income(flows: list[CashFlow], adjustment: IncomeAdjustment, start: da
             if upcoming:
                 index = upcoming[0][1]
                 flows[index] = flows[index].model_copy(update={"amount": adjustment.amount})
+        case IncomeAction.ADD_TO_NEXT:
+            upcoming = sorted((flow.day, index) for index, flow in enumerate(flows) if _is_income(flow) and flow.day >= max(start, adjustment.day))
+            if upcoming:
+                index = upcoming[0][1]
+                flows[index] = flows[index].model_copy(update={"amount": flows[index].amount + adjustment.amount})
         case IncomeAction.MOVE_NEXT_DATE:
             if start <= adjustment.day <= end:
                 nearest = sorted(

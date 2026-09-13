@@ -47,9 +47,9 @@ class AgentRunner:
     def prepare(self, request: PurchaseRequest) -> PreparedRequest:
         dataset = self.pipeline.dataset
         entries = self.pipeline.ledger.get(request.user_id, [])
-        scenarios = detect_scenarios(entries, request, self.pipeline.knobs)
-        results = {scenario.scenario_id: self.pipeline.run_request(request, scenario.knobs) for scenario in scenarios}
         facts = self.evidence.facts_for_user(request.user_id) if self.evidence else []
+        scenarios = detect_scenarios(entries, request, self.pipeline.knobs, facts)
+        results = {scenario.scenario_id: self.pipeline.run_request(request, scenario.knobs) for scenario in scenarios}
         reviews = [review for review in self.evidence.reviews.values() if review.user_id == request.user_id] if self.evidence else []
         context = build_context(
             scenarios,

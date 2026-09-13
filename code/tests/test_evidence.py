@@ -226,3 +226,34 @@ def test_resolver_ignores_facts_sent_after_the_request():
     after = AcceptedFact(fact_id="message_07#0", sent_on=date(2025, 2, 6), **base)
     adjustments = resolve_adjustments([before, after], request, [])
     assert adjustments.applied_fact_ids == ["message_06#0"]
+
+
+def test_reduced_pay_reading_and_undated_arrears_follow_knobs():
+    from buyorwait.engine.knobs import EngineKnobs
+
+    request = PurchaseRequest.model_validate(
+        {
+            "request_id": "r1", "user_id": "u1", "request_date": "2025-02-10", "request_type": "purchase",
+            "requested_amount": "100", "desired_completion_date": "2025-03-01", "allows_partial_payment": "false",
+            "request_text": "?",
+        }
+    )
+    common = dict(
+        source_id="message_20", user_id="u1", request_id=None, related_event_id=None, sent_on=date(2025, 2, 1),
+        source_authority="employer", currency="EUR", percent=None, effective_date=None, category=None,
+        confidence_score=0.9, quotes=("q",),
+    )
+    regular = AcceptedFact(fact_id="message_20#0", kind=EvidenceKind.SALARY_NEXT_PAYMENT_AMOUNT, income_source=IncomeSource.SALARY,
+                           original_amount=Decimal("1452"), amount_home=Decimal("1452"), **common)
+    arrears = AcceptedFact(fact_id="message_20#1", kind=EvidenceKind.ONE_TIME_INCOME_CONFIRMED, income_source=IncomeSource.ARREARS,
+                           original_amount=Decimal("653.40"), amount_home=Decimal("653.40"), **common)
+
+    default = resolve_adjustments([regular, arrears], request, [])
+    assert [adjustment.action for adjustment in default.income] == [IncomeAction.SET_NEXT_AMOUNT]
+
+    alternative = resolve_adjustments(
+        [regular, arrears], request, [], EngineKnobs(reduced_pay_continues=True, count_undated_one_time_income=True)
+    )
+    assert [adjustment.action for adjustment in alternative.income] == [IncomeAction.SET_AMOUNT_FROM, IncomeAction.ADD_TO_NEXT]
+    flows = apply_evidence([income(date(2025, 2, 15)), income(date(2025, 3, 15))], alternative, START, END)
+    assert [flow.amount for flow in sorted(flows, key=lambda flow: flow.day)] == [Decimal("2105.40"), Decimal("1452")]

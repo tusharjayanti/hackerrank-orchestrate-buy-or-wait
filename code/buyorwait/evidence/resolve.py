@@ -6,6 +6,7 @@ from collections.abc import Sequence
 from datetime import date, timedelta
 from decimal import Decimal
 
+from ..engine.knobs import EngineKnobs
 from ..schemas.domain import LedgerEntry, PurchaseRequest
 from ..schemas.enums import CashTreatment, Direction
 from ..schemas.evidence import (
@@ -45,9 +46,13 @@ def _internal_transfer_ids(entries: Sequence[LedgerEntry], sent_on: date) -> lis
 
 
 def resolve_adjustments(
-    facts: Sequence[AcceptedFact], request: PurchaseRequest, entries: Sequence[LedgerEntry]
+    facts: Sequence[AcceptedFact],
+    request: PurchaseRequest,
+    entries: Sequence[LedgerEntry],
+    knobs: EngineKnobs | None = None,
 ) -> EvidenceAdjustments:
     """Facts sent on or before the request date, applied oldest first so newer records from a source win."""
+    knobs = knobs or EngineKnobs()
     adjustments = EvidenceAdjustments()
     relevant = sorted(
         (fact for fact in facts if fact.sent_on is not None and fact.sent_on <= request.request_date),
@@ -61,7 +66,8 @@ def resolve_adjustments(
             case K.SALARY_AMOUNT_CHANGE:
                 adjustments.income.append(IncomeAdjustment(action=IncomeAction.SET_AMOUNT_FROM, amount=amount, day=day, fact_id=fact.fact_id))
             case K.SALARY_NEXT_PAYMENT_AMOUNT:
-                adjustments.income.append(IncomeAdjustment(action=IncomeAction.SET_NEXT_AMOUNT, amount=amount, day=fact.sent_on, fact_id=fact.fact_id))
+                action = IncomeAction.SET_AMOUNT_FROM if knobs.reduced_pay_continues else IncomeAction.SET_NEXT_AMOUNT
+                adjustments.income.append(IncomeAdjustment(action=action, amount=amount, day=fact.sent_on, fact_id=fact.fact_id))
             case K.SALARY_DATE_CHANGE:
                 adjustments.income.append(IncomeAdjustment(action=IncomeAction.MOVE_NEXT_DATE, day=fact.effective_date, fact_id=fact.fact_id))
             case K.SALARY_CONFIRMED:
@@ -75,6 +81,8 @@ def resolve_adjustments(
                 adjustments.income.append(IncomeAdjustment(action=IncomeAction.REPLACE_TOTAL, amount=amount, fact_id=fact.fact_id))
             case K.INCOME_NOT_CONFIRMED if fact.income_source in MATCHABLE_SOURCES:
                 adjustments.income.append(IncomeAdjustment(action=IncomeAction.END_MATCHING, source=fact.income_source, fact_id=fact.fact_id))
+            case K.ONE_TIME_INCOME_CONFIRMED if fact.effective_date is None and amount is not None and knobs.count_undated_one_time_income:
+                adjustments.income.append(IncomeAdjustment(action=IncomeAction.ADD_TO_NEXT, amount=amount, day=fact.sent_on, fact_id=fact.fact_id))
             case K.ONE_TIME_INCOME_CONFIRMED if fact.effective_date is not None and amount is not None:
                 adjustments.one_time_credits.append(
                     OneTimeCredit(day=fact.effective_date, amount=amount, label=f"confirmed {fact.income_source}", fact_id=fact.fact_id)

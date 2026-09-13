@@ -87,10 +87,13 @@ class EnginePipeline:
         profile = dataset.profiles[request.user_id]
         options = dataset.options_by_request.get(request.request_id, [])
         entries = self.ledger.get(request.user_id, [])
+        knobs = knobs or self.knobs
         adjustments = (
-            resolve_adjustments(self.evidence.facts_for_user(request.user_id), request, entries) if self.evidence else None
+            resolve_adjustments(self.evidence.facts_for_user(request.user_id), request, entries, knobs)
+            if self.evidence
+            else None
         )
-        decision = decide(request, profile, options, entries, knobs or self.knobs, adjustments)
+        decision = decide(request, profile, options, entries, knobs, adjustments)
         row = OutputRow.from_decision(decision, explain(decision))
         violations = check_output_row(row, request, profile, options, dataset.events_by_id)
         if not violations:

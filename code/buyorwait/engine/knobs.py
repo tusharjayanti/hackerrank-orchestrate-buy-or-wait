@@ -43,5 +43,8 @@ class EngineKnobs(BaseModel):
     reserve_duplicate_suspects: bool = False
     scheduled_credit_dedupe_days: int = 5
     project_confirmed_credits_forward: bool = True
+    # Evidence readings the agent may judge between (see agent/scenarios.py).
+    count_undated_one_time_income: bool = False
+    reduced_pay_continues: bool = False
     require_deadline: bool = True
     max_spending_changes: int = 3

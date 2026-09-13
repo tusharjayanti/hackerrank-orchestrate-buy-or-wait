@@ -149,6 +149,7 @@ class EvidenceReview(BaseModel):
 class IncomeAction(StrEnum):
     SET_AMOUNT_FROM = "set_amount_from"
     SET_NEXT_AMOUNT = "set_next_amount"
+    ADD_TO_NEXT = "add_to_next"
     MOVE_NEXT_DATE = "move_next_date"
     CONFIRMED_MONTHLY = "confirmed_monthly"
     END_ALL = "end_all"

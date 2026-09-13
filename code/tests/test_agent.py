@@ -105,3 +105,21 @@ def test_agent_gives_up_after_repeated_invalid_submissions(context, tmp_path):
     assert not outcome.accepted
     assert outcome.error
     assert scripted.calls == 3
+
+
+def test_evidence_ambiguities_become_scenarios(dataset, ledger):
+    from datetime import date
+    from decimal import Decimal
+
+    from buyorwait.schemas.evidence import AcceptedFact, EvidenceKind, IncomeSource
+
+    request = next(r for r in dataset.sample_requests if r.request_id == "request_09")
+    fact = AcceptedFact(
+        fact_id="message_x#0", source_id="message_x", user_id=request.user_id, request_id=None, related_event_id=None,
+        sent_on=date(2026, 7, 1), source_authority="employer", kind=EvidenceKind.SALARY_NEXT_PAYMENT_AMOUNT,
+        income_source=IncomeSource.SALARY, original_amount=Decimal("500"), currency="EUR", amount_home=Decimal("500"),
+        percent=None, effective_date=None, category=None, confidence_score=0.9, quotes=("q",),
+    )
+    pipeline = EnginePipeline(dataset, ledger=ledger)
+    ids = [s.scenario_id for s in detect_scenarios(pipeline.ledger[request.user_id], request, pipeline.knobs, [fact])]
+    assert ids == ["base", "reduced_pay_continues"]
