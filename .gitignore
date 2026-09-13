@@ -1,0 +1,22 @@
+# Secrets
+.env
+.env.*
+!.env.example
+
+# Chat transcript (uploaded separately at submission)
+log.txt
+
+# Run artifacts, caches, packaging
+runs/
+cache/
+code.zip
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+.pytest_cache/
+
+# OS
+.DS_Store
