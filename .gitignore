@@ -23,3 +23,7 @@ venv/
 
 # Agent worktrees
 .claude/worktrees/
+
+# Editor swap files
+*.swp
+*.swo
