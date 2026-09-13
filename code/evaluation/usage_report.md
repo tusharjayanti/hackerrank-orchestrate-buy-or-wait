@@ -1,47 +1,48 @@
 # Token Usage Report
 
-- Run ID: `final-4`
-- Generated: 2026-09-13 10:36 UTC
+- Run ID: `final-5`
+- Generated: 2026-09-13 10:47 UTC
 - Requests processed: 250
-- Command: `python code/main.py --fresh --run-id final-4`
-- Code revision: `d57d581`
-- Output produced: `output.csv` (250 rows, sha256 `5adc5c471bc52c4b03d7c8c177ae03d9519820507dbfb5efee6ca809dc8699ff`)
+- Command: `python code/main.py --fresh --batch-evidence --run-id final-5`
+- Code revision: `42d2e64`
+- Output produced: `output.csv` (250 rows, sha256 `01270e4c4b6ecab6f876d20660af39398ae619118eb8bb5ef5639aebcc4f222e`)
 - Providers: anthropic
 - Models: claude-sonnet-5
-- Live model calls: 290 (0 failed); replayed from cache: 0
+- Live model calls: 292 (0 failed); replayed from cache: 0
+- Batch API calls: 247 of 292 (billed at 50% of list price)
 
 ## Overall (live calls)
 
 | Metric | Value |
 |---|---|
-| Model calls | 290 |
-| Input tokens (all) | 944,581 |
-| Input tokens (uncached) | 944,581 |
+| Model calls | 292 |
+| Input tokens (all) | 954,943 |
+| Input tokens (uncached) | 954,943 |
 | Cache write input tokens | 0 |
 | Cache read input tokens | 0 |
-| Output tokens | 87,902 |
-| Total tokens | 1,032,483 |
-| Average tokens per request | 4,129.9 |
-| Estimated total cost (USD) | $2.7682 |
-| Estimated cost per request (USD) | $0.011073 |
+| Output tokens | 88,301 |
+| Total tokens | 1,043,244 |
+| Average tokens per request | 4,173.0 |
+| Estimated total cost (USD) | $1.6896 |
+| Estimated cost per request (USD) | $0.006758 |
 
 ## Per model
 
 | Provider | Model | Calls | Input | Cache write | Cache read | Output | Total | Est. cost |
 |---|---|---|---|---|---|---|---|---|
-| anthropic | claude-sonnet-5 | 290 | 944,581 | 0 | 0 | 87,902 | 1,032,483 | $2.7682 |
+| anthropic | claude-sonnet-5 | 292 | 954,943 | 0 | 0 | 88,301 | 1,043,244 | $1.6896 |
 
 ## Per purpose
 
 | Purpose | Calls | Input | Cache write | Cache read | Output | Total | Est. cost |
 |---|---|---|---|---|---|---|---|
-| agent.turn | 43 | 154,291 | 0 | 0 | 23,870 | 178,161 | $0.5473 |
-| evidence.image | 32 | 100,578 | 0 | 0 | 9,959 | 110,537 | $0.3007 |
-| evidence.message | 215 | 689,712 | 0 | 0 | 54,073 | 743,785 | $1.9202 |
+| agent.turn | 45 | 164,653 | 0 | 0 | 25,691 | 190,344 | $0.5862 |
+| evidence.image (batch) | 32 | 100,578 | 0 | 0 | 8,720 | 109,298 | $0.1442 |
+| evidence.message (batch) | 215 | 689,712 | 0 | 0 | 53,890 | 743,602 | $0.9592 |
 
 ## Pricing assumptions
 
-Anthropic first-party list prices, USD per million tokens. Cache writes are billed at 1.25x input and cache reads at 0.1x input.
+Anthropic first-party list prices, USD per million tokens. Cache writes are billed at 1.25x input and cache reads at 0.1x input; Message Batches API calls at 50% of these prices.
 
 | Model | Input | Output |
 |---|---|---|
