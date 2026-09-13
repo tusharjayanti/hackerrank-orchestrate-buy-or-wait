@@ -58,6 +58,8 @@ def resolve_adjustments(
         (fact for fact in facts if fact.sent_on is not None and fact.sent_on <= request.request_date),
         key=lambda fact: (fact.sent_on, fact.fact_id),
     )
+    # "One income ended; the remaining confirmed salary is X" is a single amendment, not an end to all income.
+    remaining_total_sources = {fact.source_id for fact in relevant if fact.kind is K.INCOME_REMAINING_TOTAL}
     for fact in relevant:
         day = fact.effective_date or fact.sent_on
         amount = fact.amount_home
@@ -72,6 +74,9 @@ def resolve_adjustments(
                 adjustments.income.append(IncomeAdjustment(action=IncomeAction.MOVE_NEXT_DATE, day=fact.effective_date, fact_id=fact.fact_id))
             case K.SALARY_CONFIRMED:
                 adjustments.income.append(IncomeAdjustment(action=IncomeAction.CONFIRMED_MONTHLY, amount=amount, day=fact.effective_date, fact_id=fact.fact_id))
+            case K.INCOME_ENDED if fact.source_id in remaining_total_sources:
+                applied = False
+                adjustments.notes.append(f"{fact.fact_id}: superseded by the remaining total stated in {fact.source_id}")
             case K.INCOME_ENDED:
                 if fact.income_source in MATCHABLE_SOURCES:
                     adjustments.income.append(IncomeAdjustment(action=IncomeAction.END_MATCHING, source=fact.income_source, fact_id=fact.fact_id))

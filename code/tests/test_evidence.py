@@ -257,3 +257,23 @@ def test_reduced_pay_reading_and_undated_arrears_follow_knobs():
     assert [adjustment.action for adjustment in alternative.income] == [IncomeAction.SET_AMOUNT_FROM, IncomeAction.ADD_TO_NEXT]
     flows = apply_evidence([income(date(2025, 2, 15)), income(date(2025, 3, 15))], alternative, START, END)
     assert [flow.amount for flow in sorted(flows, key=lambda flow: flow.day)] == [Decimal("2105.40"), Decimal("1452")]
+
+
+def test_income_remaining_total_supersedes_income_ended_from_the_same_message():
+    request = PurchaseRequest.model_validate(
+        {
+            "request_id": "r1", "user_id": "u1", "request_date": "2025-02-10", "request_type": "purchase",
+            "requested_amount": "100", "desired_completion_date": "2025-03-01", "allows_partial_payment": "false",
+            "request_text": "?",
+        }
+    )
+    common = dict(
+        source_id="message_42", user_id="u1", request_id=None, related_event_id=None, sent_on=date(2025, 2, 1),
+        source_authority="employer", currency="EUR", percent=None, effective_date=None, category=None,
+        confidence_score=0.9, quotes=("q",), income_source=IncomeSource.SALARY,
+    )
+    ended = AcceptedFact(fact_id="message_42#0", kind=EvidenceKind.INCOME_ENDED, original_amount=None, amount_home=None, **common)
+    remaining = AcceptedFact(fact_id="message_42#1", kind=EvidenceKind.INCOME_REMAINING_TOTAL,
+                             original_amount=Decimal("148000"), amount_home=Decimal("148000"), **common)
+    adjustments = resolve_adjustments([ended, remaining], request, [])
+    assert [adjustment.action for adjustment in adjustments.income] == [IncomeAction.REPLACE_TOTAL]

@@ -1,0 +1,4208 @@
+[
+ {
+  "message_id": "message_01",
+  "source_type": "employer",
+  "families": [
+   "salary_increase"
+  ],
+  "expected": [
+   {
+    "kind": "salary_amount_change",
+    "income_source": "salary",
+    "amount": "42750000",
+    "effective_date": "2025-08-15",
+    "percent": null,
+    "category": null
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_02",
+  "source_type": "employer",
+  "families": [
+   "payroll_confirmed_without_amount"
+  ],
+  "expected": [
+   {
+    "kind": "no_financial_effect",
+    "income_source": "not_applicable",
+    "amount": null,
+    "effective_date": null,
+    "percent": null,
+    "category": null
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_03",
+  "source_type": "employer",
+  "families": [
+   "bonus_pending"
+  ],
+  "expected": [
+   {
+    "kind": "income_not_confirmed",
+    "income_source": "bonus",
+    "amount": null,
+    "effective_date": null,
+    "percent": null,
+    "category": null
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_04",
+  "source_type": "employer",
+  "families": [
+   "next_payroll_amount"
+  ],
+  "expected": [
+   {
+    "kind": "salary_next_payment_amount",
+    "income_source": "salary",
+    "amount": "1037.52",
+    "effective_date": null,
+    "percent": null,
+    "category": null
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_05",
+  "source_type": "employer",
+  "families": [
+   "salary_date_moved"
+  ],
+  "expected": [
+   {
+    "kind": "salary_date_change",
+    "income_source": "salary",
+    "amount": null,
+    "effective_date": "2024-09-23",
+    "percent": null,
+    "category": null
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_06",
+  "source_type": "employer",
+  "families": [
+   "next_payroll_amount"
+  ],
+  "expected": [
+   {
+    "kind": "salary_next_payment_amount",
+    "income_source": "salary",
+    "amount": "1422.85",
+    "effective_date": null,
+    "percent": null,
+    "category": null
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_07",
+  "source_type": "service_provider",
+  "families": [
+   "platform_payout_pending"
+  ],
+  "expected": [
+   {
+    "kind": "income_not_confirmed",
+    "income_source": "platform_payout",
+    "amount": null,
+    "effective_date": null,
+    "percent": null,
+    "category": null
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_08",
+  "source_type": "employer",
+  "families": [
+   "base_salary_commission_pending"
+  ],
+  "expected": [
+   {
+    "kind": "salary_amount_change",
+    "income_source": "salary",
+    "amount": "38760000",
+    "effective_date": null,
+    "percent": null,
+    "category": null
+   },
+   {
+    "kind": "income_not_confirmed",
+    "income_source": "commission",
+    "amount": null,
+    "effective_date": null,
+    "percent": null,
+    "category": null
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_09",
+  "source_type": "employer",
+  "families": [
+   "income_ended"
+  ],
+  "expected": [
+   {
+    "kind": "income_ended",
+    "income_source": "salary",
+    "amount": null,
+    "effective_date": null,
+    "percent": null,
+    "category": null
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_10",
+  "source_type": "employer",
+  "families": [
+   "salary_confirmed_on_date",
+   "new_childcare_expense"
+  ],
+  "expected": [
+   {
+    "kind": "salary_confirmed",
+    "income_source": "salary",
+    "amount": "2717",
+    "effective_date": "2025-08-15",
+    "percent": null,
+    "category": null
+   },
+   {
+    "kind": "new_recurring_expense",
+    "income_source": "not_applicable",
+    "amount": null,
+    "effective_date": null,
+    "percent": null,
+    "category": "childcare"
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_11",
+  "source_type": "employer",
+  "families": [
+   "salary_confirmed_on_date"
+  ],
+  "expected": [
+   {
+    "kind": "salary_confirmed",
+    "income_source": "salary",
+    "amount": "1661",
+    "effective_date": "2026-01-15",
+    "percent": null,
+    "category": null
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_12",
+  "source_type": "service_provider",
+  "families": [
+   "rent_increase"
+  ],
+  "expected": [
+   {
+    "kind": "expense_percent_change",
+    "income_source": "not_applicable",
+    "amount": null,
+    "effective_date": null,
+    "percent": "12",
+    "category": "rent"
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_13",
+  "source_type": "bank",
+  "families": [
+   "internal_transfer"
+  ],
+  "expected": [
+   {
+    "kind": "internal_transfer",
+    "income_source": "not_applicable",
+    "amount": null,
+    "effective_date": null,
+    "percent": null,
+    "category": null
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_14",
+  "source_type": "merchant",
+  "families": [
+   "refund_pending"
+  ],
+  "expected": [
+   {
+    "kind": "refund_not_settled",
+    "income_source": "refund",
+    "amount": null,
+    "effective_date": null,
+    "percent": null,
+    "category": null
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_15",
+  "source_type": "financial_service",
+  "families": [
+   "investment_value"
+  ],
+  "expected": [
+   {
+    "kind": "investment_value_non_cash",
+    "income_source": "investment",
+    "amount": null,
+    "effective_date": null,
+    "percent": null,
+    "category": null
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_16",
+  "source_type": "financial_service",
+  "families": [
+   "prize_processing"
+  ],
+  "expected": [
+   {
+    "kind": "income_not_confirmed",
+    "income_source": "prize",
+    "amount": null,
+    "effective_date": null,
+    "percent": null,
+    "category": null
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_17",
+  "source_type": "financial_service",
+  "families": [
+   "credit_already_settled"
+  ],
+  "expected": [
+   {
+    "kind": "credit_already_settled",
+    "income_source": "not_applicable",
+    "amount": null,
+    "effective_date": null,
+    "percent": null,
+    "category": null
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_18",
+  "source_type": "service_provider",
+  "families": [
+   "invoice_approved_others_pending"
+  ],
+  "expected": [
+   {
+    "kind": "one_time_income_confirmed",
+    "income_source": "freelance_invoice",
+    "amount": "30780000",
+    "effective_date": "2025-08-15",
+    "percent": null,
+    "category": null
+   },
+   {
+    "kind": "income_not_confirmed",
+    "income_source": "freelance_invoice",
+    "amount": null,
+    "effective_date": null,
+    "percent": null,
+    "category": null
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_19",
+  "source_type": "service_provider",
+  "families": [
+   "platform_payout_pending"
+  ],
+  "expected": [
+   {
+    "kind": "income_not_confirmed",
+    "income_source": "platform_payout",
+    "amount": null,
+    "effective_date": null,
+    "percent": null,
+    "category": null
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_20",
+  "source_type": "employer",
+  "families": [
+   "next_payroll_amount",
+   "arrears_one_time"
+  ],
+  "expected": [
+   {
+    "kind": "salary_next_payment_amount",
+    "income_source": "salary",
+    "amount": "1452",
+    "effective_date": null,
+    "percent": null,
+    "category": null
+   },
+   {
+    "kind": "one_time_income_confirmed",
+    "income_source": "arrears",
+    "amount": "653.40",
+    "effective_date": null,
+    "percent": null,
+    "category": null
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_21",
+  "source_type": "employer",
+  "families": [
+   "income_ended"
+  ],
+  "expected": [
+   {
+    "kind": "income_ended",
+    "income_source": "salary",
+    "amount": null,
+    "effective_date": null,
+    "percent": null,
+    "category": null
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_22",
+  "source_type": "employer",
+  "families": [
+   "salary_confirmed_on_date"
+  ],
+  "expected": [
+   {
+    "kind": "salary_confirmed",
+    "income_source": "salary",
+    "amount": "54120",
+    "effective_date": "2025-02-15",
+    "percent": null,
+    "category": null
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_23",
+  "source_type": "bank",
+  "families": [
+   "internal_transfer"
+  ],
+  "expected": [
+   {
+    "kind": "internal_transfer",
+    "income_source": "not_applicable",
+    "amount": null,
+    "effective_date": null,
+    "percent": null,
+    "category": null
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_24",
+  "source_type": "service_provider",
+  "families": [
+   "invoice_approved_others_pending"
+  ],
+  "expected": [
+   {
+    "kind": "one_time_income_confirmed",
+    "income_source": "freelance_invoice",
+    "amount": "196000",
+    "effective_date": "2024-12-15",
+    "percent": null,
+    "category": null
+   },
+   {
+    "kind": "income_not_confirmed",
+    "income_source": "freelance_invoice",
+    "amount": null,
+    "effective_date": null,
+    "percent": null,
+    "category": null
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_25",
+  "source_type": "merchant",
+  "families": [
+   "refund_pending"
+  ],
+  "expected": [
+   {
+    "kind": "refund_not_settled",
+    "income_source": "refund",
+    "amount": null,
+    "effective_date": null,
+    "percent": null,
+    "category": null
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_26",
+  "source_type": "employer",
+  "families": [
+   "salary_increase"
+  ],
+  "expected": [
+   {
+    "kind": "salary_amount_change",
+    "income_source": "salary",
+    "amount": "2988",
+    "effective_date": "2026-07-15",
+    "percent": null,
+    "category": null
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_27",
+  "source_type": "employer",
+  "families": [
+   "next_payroll_amount",
+   "arrears_one_time"
+  ],
+  "expected": [
+   {
+    "kind": "salary_next_payment_amount",
+    "income_source": "salary",
+    "amount": "21090000",
+    "effective_date": null,
+    "percent": null,
+    "category": null
+   },
+   {
+    "kind": "one_time_income_confirmed",
+    "income_source": "arrears",
+    "amount": "9490500",
+    "effective_date": null,
+    "percent": null,
+    "category": null
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_28",
+  "source_type": "financial_service",
+  "families": [
+   "credit_already_settled"
+  ],
+  "expected": [
+   {
+    "kind": "credit_already_settled",
+    "income_source": "not_applicable",
+    "amount": null,
+    "effective_date": null,
+    "percent": null,
+    "category": null
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_29",
+  "source_type": "employer",
+  "families": [
+   "salary_confirmed_on_date"
+  ],
+  "expected": [
+   {
+    "kind": "salary_confirmed",
+    "income_source": "salary",
+    "amount": "1760",
+    "effective_date": "2024-06-15",
+    "percent": null,
+    "category": null
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_30",
+  "source_type": "employer",
+  "families": [
+   "remaining_household_salary"
+  ],
+  "expected": [
+   {
+    "kind": "income_remaining_total",
+    "income_source": "salary",
+    "amount": "148000",
+    "effective_date": null,
+    "percent": null,
+    "category": null
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_31",
+  "source_type": "employer",
+  "families": [
+   "salary_confirmed_on_date"
+  ],
+  "expected": [
+   {
+    "kind": "salary_confirmed",
+    "income_source": "salary",
+    "amount": "32870000",
+    "effective_date": "2024-09-15",
+    "percent": null,
+    "category": null
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_32",
+  "source_type": "employer",
+  "families": [
+   "salary_confirmed_on_date"
+  ],
+  "expected": [
+   {
+    "kind": "salary_confirmed",
+    "income_source": "salary",
+    "amount": "115000",
+    "effective_date": "2025-02-15",
+    "percent": null,
+    "category": null
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_33",
+  "source_type": "employer",
+  "families": [
+   "salary_increase"
+  ],
+  "expected": [
+   {
+    "kind": "salary_amount_change",
+    "income_source": "salary",
+    "amount": "17290000",
+    "effective_date": "2026-07-15",
+    "percent": null,
+    "category": null
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_34",
+  "source_type": "service_provider",
+  "families": [
+   "platform_payout_pending"
+  ],
+  "expected": [
+   {
+    "kind": "income_not_confirmed",
+    "income_source": "platform_payout",
+    "amount": null,
+    "effective_date": null,
+    "percent": null,
+    "category": null
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_35",
+  "source_type": "service_provider",
+  "families": [
+   "receipt_only"
+  ],
+  "expected": [
+   {
+    "kind": "no_financial_effect",
+    "income_source": "not_applicable",
+    "amount": null,
+    "effective_date": null,
+    "percent": null,
+    "category": null
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_36",
+  "source_type": "employer",
+  "families": [
+   "next_payroll_amount"
+  ],
+  "expected": [
+   {
+    "kind": "salary_next_payment_amount",
+    "income_source": "salary",
+    "amount": "31464000",
+    "effective_date": null,
+    "percent": null,
+    "category": null
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_37",
+  "source_type": "employer",
+  "families": [
+   "remaining_household_salary"
+  ],
+  "expected": [
+   {
+    "kind": "income_remaining_total",
+    "income_source": "salary",
+    "amount": "126000",
+    "effective_date": null,
+    "percent": null,
+    "category": null
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_38",
+  "source_type": "employer",
+  "families": [
+   "salary_confirmed_on_date"
+  ],
+  "expected": [
+   {
+    "kind": "salary_confirmed",
+    "income_source": "salary",
+    "amount": "69000",
+    "effective_date": "2024-06-15",
+    "percent": null,
+    "category": null
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_39",
+  "source_type": "merchant",
+  "families": [
+   "refund_pending"
+  ],
+  "expected": [
+   {
+    "kind": "refund_not_settled",
+    "income_source": "refund",
+    "amount": null,
+    "effective_date": null,
+    "percent": null,
+    "category": null
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_40",
+  "source_type": "employer",
+  "families": [
+   "salary_increase"
+  ],
+  "expected": [
+   {
+    "kind": "salary_amount_change",
+    "income_source": "salary",
+    "amount": "42460",
+    "effective_date": "2026-07-15",
+    "percent": null,
+    "category": null
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_41",
+  "source_type": "bank",
+  "families": [
+   "internal_transfer"
+  ],
+  "expected": [
+   {
+    "kind": "internal_transfer",
+    "income_source": "not_applicable",
+    "amount": null,
+    "effective_date": null,
+    "percent": null,
+    "category": null
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_42",
+  "source_type": "employer",
+  "families": [
+   "remaining_household_salary"
+  ],
+  "expected": [
+   {
+    "kind": "income_remaining_total",
+    "income_source": "salary",
+    "amount": "25840000",
+    "effective_date": null,
+    "percent": null,
+    "category": null
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_43",
+  "source_type": "service_provider",
+  "families": [
+   "platform_payout_pending"
+  ],
+  "expected": [
+   {
+    "kind": "income_not_confirmed",
+    "income_source": "platform_payout",
+    "amount": null,
+    "effective_date": null,
+    "percent": null,
+    "category": null
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_44",
+  "source_type": "employer",
+  "families": [
+   "next_payroll_amount"
+  ],
+  "expected": [
+   {
+    "kind": "salary_next_payment_amount",
+    "income_source": "salary",
+    "amount": "530.40",
+    "effective_date": null,
+    "percent": null,
+    "category": null
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_45",
+  "source_type": "employer",
+  "families": [
+   "income_ended"
+  ],
+  "expected": [
+   {
+    "kind": "income_ended",
+    "income_source": "salary",
+    "amount": null,
+    "effective_date": null,
+    "percent": null,
+    "category": null
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_46",
+  "source_type": "service_provider",
+  "families": [
+   "invoice_approved_others_pending"
+  ],
+  "expected": [
+   {
+    "kind": "one_time_income_confirmed",
+    "income_source": "freelance_invoice",
+    "amount": "2112",
+    "effective_date": "2025-08-15",
+    "percent": null,
+    "category": null
+   },
+   {
+    "kind": "income_not_confirmed",
+    "income_source": "freelance_invoice",
+    "amount": null,
+    "effective_date": null,
+    "percent": null,
+    "category": null
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_47",
+  "source_type": "merchant",
+  "families": [
+   "refund_pending"
+  ],
+  "expected": [
+   {
+    "kind": "refund_not_settled",
+    "income_source": "refund",
+    "amount": null,
+    "effective_date": null,
+    "percent": null,
+    "category": null
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_48",
+  "source_type": "employer",
+  "families": [
+   "bonus_pending"
+  ],
+  "expected": [
+   {
+    "kind": "income_not_confirmed",
+    "income_source": "bonus",
+    "amount": null,
+    "effective_date": null,
+    "percent": null,
+    "category": null
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_49",
+  "source_type": "service_provider",
+  "families": [
+   "invoice_approved_others_pending"
+  ],
+  "expected": [
+   {
+    "kind": "one_time_income_confirmed",
+    "income_source": "freelance_invoice",
+    "amount": "116000",
+    "effective_date": "2026-04-15",
+    "percent": null,
+    "category": null
+   },
+   {
+    "kind": "income_not_confirmed",
+    "income_source": "freelance_invoice",
+    "amount": null,
+    "effective_date": null,
+    "percent": null,
+    "category": null
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_50",
+  "source_type": "employer",
+  "families": [
+   "salary_date_moved"
+  ],
+  "expected": [
+   {
+    "kind": "salary_date_change",
+    "income_source": "salary",
+    "amount": null,
+    "effective_date": "2025-02-23",
+    "percent": null,
+    "category": null
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_51",
+  "source_type": "service_provider",
+  "families": [
+   "rent_increase"
+  ],
+  "expected": [
+   {
+    "kind": "expense_percent_change",
+    "income_source": "not_applicable",
+    "amount": null,
+    "effective_date": null,
+    "percent": "12",
+    "category": "rent"
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_52",
+  "source_type": "financial_service",
+  "families": [
+   "investment_value"
+  ],
+  "expected": [
+   {
+    "kind": "investment_value_non_cash",
+    "income_source": "investment",
+    "amount": null,
+    "effective_date": null,
+    "percent": null,
+    "category": null
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_53",
+  "source_type": "employer",
+  "families": [
+   "salary_confirmed_on_date"
+  ],
+  "expected": [
+   {
+    "kind": "salary_confirmed",
+    "income_source": "salary",
+    "amount": "696",
+    "effective_date": "2025-05-15",
+    "percent": null,
+    "category": null
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_54",
+  "source_type": "employer",
+  "families": [
+   "salary_confirmed_on_date"
+  ],
+  "expected": [
+   {
+    "kind": "salary_confirmed",
+    "income_source": "salary",
+    "amount": "18700",
+    "effective_date": "2026-07-15",
+    "percent": null,
+    "category": null
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_55",
+  "source_type": "service_provider",
+  "families": [
+   "rent_increase"
+  ],
+  "expected": [
+   {
+    "kind": "expense_percent_change",
+    "income_source": "not_applicable",
+    "amount": null,
+    "effective_date": null,
+    "percent": "12",
+    "category": "rent"
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_56",
+  "source_type": "service_provider",
+  "families": [
+   "invoice_approved_others_pending"
+  ],
+  "expected": [
+   {
+    "kind": "one_time_income_confirmed",
+    "income_source": "freelance_invoice",
+    "amount": "26180",
+    "effective_date": "2025-08-15",
+    "percent": null,
+    "category": null
+   },
+   {
+    "kind": "income_not_confirmed",
+    "income_source": "freelance_invoice",
+    "amount": null,
+    "effective_date": null,
+    "percent": null,
+    "category": null
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_57",
+  "source_type": "employer",
+  "families": [
+   "income_ended"
+  ],
+  "expected": [
+   {
+    "kind": "income_ended",
+    "income_source": "salary",
+    "amount": null,
+    "effective_date": null,
+    "percent": null,
+    "category": null
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_58",
+  "source_type": "employer",
+  "families": [
+   "base_salary_commission_pending"
+  ],
+  "expected": [
+   {
+    "kind": "salary_amount_change",
+    "income_source": "salary",
+    "amount": "3072",
+    "effective_date": null,
+    "percent": null,
+    "category": null
+   },
+   {
+    "kind": "income_not_confirmed",
+    "income_source": "commission",
+    "amount": null,
+    "effective_date": null,
+    "percent": null,
+    "category": null
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_59",
+  "source_type": "merchant",
+  "families": [
+   "refund_pending"
+  ],
+  "expected": [
+   {
+    "kind": "refund_not_settled",
+    "income_source": "refund",
+    "amount": null,
+    "effective_date": null,
+    "percent": null,
+    "category": null
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_60",
+  "source_type": "employer",
+  "families": [
+   "base_salary_commission_pending"
+  ],
+  "expected": [
+   {
+    "kind": "salary_amount_change",
+    "income_source": "salary",
+    "amount": "158000",
+    "effective_date": null,
+    "percent": null,
+    "category": null
+   },
+   {
+    "kind": "income_not_confirmed",
+    "income_source": "commission",
+    "amount": null,
+    "effective_date": null,
+    "percent": null,
+    "category": null
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_61",
+  "source_type": "service_provider",
+  "families": [
+   "rent_increase"
+  ],
+  "expected": [
+   {
+    "kind": "expense_percent_change",
+    "income_source": "not_applicable",
+    "amount": null,
+    "effective_date": null,
+    "percent": "12",
+    "category": "rent"
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_62",
+  "source_type": "employer",
+  "families": [
+   "next_payroll_amount",
+   "arrears_one_time"
+  ],
+  "expected": [
+   {
+    "kind": "salary_next_payment_amount",
+    "income_source": "salary",
+    "amount": "1752",
+    "effective_date": null,
+    "percent": null,
+    "category": null
+   },
+   {
+    "kind": "one_time_income_confirmed",
+    "income_source": "arrears",
+    "amount": "788.40",
+    "effective_date": null,
+    "percent": null,
+    "category": null
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_63",
+  "source_type": "employer",
+  "families": [
+   "salary_confirmed_on_date",
+   "new_childcare_expense"
+  ],
+  "expected": [
+   {
+    "kind": "salary_confirmed",
+    "income_source": "salary",
+    "amount": "62000",
+    "effective_date": "2025-05-15",
+    "percent": null,
+    "category": null
+   },
+   {
+    "kind": "new_recurring_expense",
+    "income_source": "not_applicable",
+    "amount": null,
+    "effective_date": null,
+    "percent": null,
+    "category": "childcare"
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_64",
+  "source_type": "merchant",
+  "families": [
+   "receipt_only"
+  ],
+  "expected": [
+   {
+    "kind": "no_financial_effect",
+    "income_source": "not_applicable",
+    "amount": null,
+    "effective_date": null,
+    "percent": null,
+    "category": null
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_65",
+  "source_type": "employer",
+  "families": [
+   "next_payroll_amount"
+  ],
+  "expected": [
+   {
+    "kind": "salary_next_payment_amount",
+    "income_source": "salary",
+    "amount": "8618400",
+    "effective_date": null,
+    "percent": null,
+    "category": null
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_66",
+  "source_type": "employer",
+  "families": [
+   "salary_confirmed_on_date",
+   "new_childcare_expense"
+  ],
+  "expected": [
+   {
+    "kind": "salary_confirmed",
+    "income_source": "salary",
+    "amount": "251000",
+    "effective_date": "2026-01-15",
+    "percent": null,
+    "category": null
+   },
+   {
+    "kind": "new_recurring_expense",
+    "income_source": "not_applicable",
+    "amount": null,
+    "effective_date": null,
+    "percent": null,
+    "category": "childcare"
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_67",
+  "source_type": "financial_service",
+  "families": [
+   "scam_release_fee"
+  ],
+  "expected": [
+   {
+    "kind": "suspicious_request",
+    "income_source": "not_applicable",
+    "amount": null,
+    "effective_date": null,
+    "percent": null,
+    "category": null
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_68",
+  "source_type": "service_provider",
+  "families": [
+   "invoice_approved_others_pending"
+  ],
+  "expected": [
+   {
+    "kind": "one_time_income_confirmed",
+    "income_source": "freelance_invoice",
+    "amount": "13420",
+    "effective_date": "2026-07-15",
+    "percent": null,
+    "category": null
+   },
+   {
+    "kind": "income_not_confirmed",
+    "income_source": "freelance_invoice",
+    "amount": null,
+    "effective_date": null,
+    "percent": null,
+    "category": null
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_69",
+  "source_type": "bank",
+  "families": [
+   "bill_outstanding"
+  ],
+  "expected": [
+   {
+    "kind": "bill_still_outstanding",
+    "income_source": "not_applicable",
+    "amount": null,
+    "effective_date": null,
+    "percent": null,
+    "category": null
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_70",
+  "source_type": "employer",
+  "families": [
+   "base_salary_commission_pending"
+  ],
+  "expected": [
+   {
+    "kind": "salary_amount_change",
+    "income_source": "salary",
+    "amount": "49280",
+    "effective_date": null,
+    "percent": null,
+    "category": null
+   },
+   {
+    "kind": "income_not_confirmed",
+    "income_source": "commission",
+    "amount": null,
+    "effective_date": null,
+    "percent": null,
+    "category": null
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_71",
+  "source_type": "financial_service",
+  "families": [
+   "prize_processing"
+  ],
+  "expected": [
+   {
+    "kind": "income_not_confirmed",
+    "income_source": "prize",
+    "amount": null,
+    "effective_date": null,
+    "percent": null,
+    "category": null
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_72",
+  "source_type": "service_provider",
+  "families": [
+   "invoice_approved_others_pending"
+  ],
+  "expected": [
+   {
+    "kind": "one_time_income_confirmed",
+    "income_source": "freelance_invoice",
+    "amount": "924",
+    "effective_date": "2024-12-15",
+    "percent": null,
+    "category": null
+   },
+   {
+    "kind": "income_not_confirmed",
+    "income_source": "freelance_invoice",
+    "amount": null,
+    "effective_date": null,
+    "percent": null,
+    "category": null
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_73",
+  "source_type": "employer",
+  "families": [
+   "salary_date_moved"
+  ],
+  "expected": [
+   {
+    "kind": "salary_date_change",
+    "income_source": "salary",
+    "amount": null,
+    "effective_date": "2025-05-23",
+    "percent": null,
+    "category": null
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_74",
+  "source_type": "employer",
+  "families": [
+   "salary_confirmed_on_date"
+  ],
+  "expected": [
+   {
+    "kind": "salary_confirmed",
+    "income_source": "salary",
+    "amount": "1804",
+    "effective_date": "2025-08-15",
+    "percent": null,
+    "category": null
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_75",
+  "source_type": "financial_service",
+  "families": [
+   "credit_already_settled"
+  ],
+  "expected": [
+   {
+    "kind": "credit_already_settled",
+    "income_source": "not_applicable",
+    "amount": null,
+    "effective_date": null,
+    "percent": null,
+    "category": null
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_76",
+  "source_type": "service_provider",
+  "families": [
+   "invoice_approved_others_pending"
+  ],
+  "expected": [
+   {
+    "kind": "one_time_income_confirmed",
+    "income_source": "freelance_invoice",
+    "amount": "1419",
+    "effective_date": "2026-04-15",
+    "percent": null,
+    "category": null
+   },
+   {
+    "kind": "income_not_confirmed",
+    "income_source": "freelance_invoice",
+    "amount": null,
+    "effective_date": null,
+    "percent": null,
+    "category": null
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_77",
+  "source_type": "employer",
+  "families": [
+   "next_payroll_amount"
+  ],
+  "expected": [
+   {
+    "kind": "salary_next_payment_amount",
+    "income_source": "salary",
+    "amount": "164880",
+    "effective_date": null,
+    "percent": null,
+    "category": null
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_78",
+  "source_type": "employer",
+  "families": [
+   "base_salary_commission_pending"
+  ],
+  "expected": [
+   {
+    "kind": "salary_amount_change",
+    "income_source": "salary",
+    "amount": "35860",
+    "effective_date": null,
+    "percent": null,
+    "category": null
+   },
+   {
+    "kind": "income_not_confirmed",
+    "income_source": "commission",
+    "amount": null,
+    "effective_date": null,
+    "percent": null,
+    "category": null
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_79",
+  "source_type": "financial_service",
+  "families": [
+   "investment_value"
+  ],
+  "expected": [
+   {
+    "kind": "investment_value_non_cash",
+    "income_source": "investment",
+    "amount": null,
+    "effective_date": null,
+    "percent": null,
+    "category": null
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_80",
+  "source_type": "employer",
+  "families": [
+   "salary_confirmed_on_date"
+  ],
+  "expected": [
+   {
+    "kind": "salary_confirmed",
+    "income_source": "salary",
+    "amount": "1815",
+    "effective_date": "2024-12-15",
+    "percent": null,
+    "category": null
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_81",
+  "source_type": "employer",
+  "families": [
+   "salary_confirmed_on_date"
+  ],
+  "expected": [
+   {
+    "kind": "salary_confirmed",
+    "income_source": "salary",
+    "amount": "2123",
+    "effective_date": "2025-05-15",
+    "percent": null,
+    "category": null
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_82",
+  "source_type": "employer",
+  "families": [
+   "base_salary_commission_pending"
+  ],
+  "expected": [
+   {
+    "kind": "salary_amount_change",
+    "income_source": "salary",
+    "amount": "33440",
+    "effective_date": null,
+    "percent": null,
+    "category": null
+   },
+   {
+    "kind": "income_not_confirmed",
+    "income_source": "commission",
+    "amount": null,
+    "effective_date": null,
+    "percent": null,
+    "category": null
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_83",
+  "source_type": "service_provider",
+  "families": [
+   "invoice_approved_others_pending"
+  ],
+  "expected": [
+   {
+    "kind": "one_time_income_confirmed",
+    "income_source": "freelance_invoice",
+    "amount": "16720",
+    "effective_date": "2025-08-15",
+    "percent": null,
+    "category": null
+   },
+   {
+    "kind": "income_not_confirmed",
+    "income_source": "freelance_invoice",
+    "amount": null,
+    "effective_date": null,
+    "percent": null,
+    "category": null
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_84",
+  "source_type": "employer",
+  "families": [
+   "income_ended"
+  ],
+  "expected": [
+   {
+    "kind": "income_ended",
+    "income_source": "salary",
+    "amount": null,
+    "effective_date": null,
+    "percent": null,
+    "category": null
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_85",
+  "source_type": "employer",
+  "families": [
+   "salary_confirmed_on_date"
+  ],
+  "expected": [
+   {
+    "kind": "salary_confirmed",
+    "income_source": "salary",
+    "amount": "627",
+    "effective_date": "2024-06-15",
+    "percent": null,
+    "category": null
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_86",
+  "source_type": "financial_service",
+  "families": [
+   "receipt_only"
+  ],
+  "expected": [
+   {
+    "kind": "no_financial_effect",
+    "income_source": "not_applicable",
+    "amount": null,
+    "effective_date": null,
+    "percent": null,
+    "category": null
+   }
+  ],
+  "note": "salary claim from a non-employer source must not be accepted"
+ },
+ {
+  "message_id": "message_87",
+  "source_type": "employer",
+  "families": [
+   "next_payroll_amount"
+  ],
+  "expected": [
+   {
+    "kind": "salary_next_payment_amount",
+    "income_source": "salary",
+    "amount": "148200",
+    "effective_date": null,
+    "percent": null,
+    "category": null
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_88",
+  "source_type": "financial_service",
+  "families": [
+   "credit_already_settled"
+  ],
+  "expected": [
+   {
+    "kind": "credit_already_settled",
+    "income_source": "not_applicable",
+    "amount": null,
+    "effective_date": null,
+    "percent": null,
+    "category": null
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_89",
+  "source_type": "employer",
+  "families": [
+   "salary_increase"
+  ],
+  "expected": [
+   {
+    "kind": "salary_amount_change",
+    "income_source": "salary",
+    "amount": "1188",
+    "effective_date": "2026-07-15",
+    "percent": null,
+    "category": null
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_90",
+  "source_type": "employer",
+  "families": [
+   "next_payroll_amount",
+   "arrears_one_time"
+  ],
+  "expected": [
+   {
+    "kind": "salary_next_payment_amount",
+    "income_source": "salary",
+    "amount": "759",
+    "effective_date": null,
+    "percent": null,
+    "category": null
+   },
+   {
+    "kind": "one_time_income_confirmed",
+    "income_source": "arrears",
+    "amount": "341.55",
+    "effective_date": null,
+    "percent": null,
+    "category": null
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_91",
+  "source_type": "employer",
+  "families": [
+   "salary_confirmed_on_date",
+   "new_childcare_expense"
+  ],
+  "expected": [
+   {
+    "kind": "salary_confirmed",
+    "income_source": "salary",
+    "amount": "176000",
+    "effective_date": "2025-05-15",
+    "percent": null,
+    "category": null
+   },
+   {
+    "kind": "new_recurring_expense",
+    "income_source": "not_applicable",
+    "amount": null,
+    "effective_date": null,
+    "percent": null,
+    "category": "childcare"
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_92",
+  "source_type": "financial_service",
+  "families": [
+   "credit_already_settled"
+  ],
+  "expected": [
+   {
+    "kind": "credit_already_settled",
+    "income_source": "not_applicable",
+    "amount": null,
+    "effective_date": null,
+    "percent": null,
+    "category": null
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_93",
+  "source_type": "service_provider",
+  "families": [
+   "invoice_approved_others_pending"
+  ],
+  "expected": [
+   {
+    "kind": "one_time_income_confirmed",
+    "income_source": "freelance_invoice",
+    "amount": "15390000",
+    "effective_date": "2025-08-15",
+    "percent": null,
+    "category": null
+   },
+   {
+    "kind": "income_not_confirmed",
+    "income_source": "freelance_invoice",
+    "amount": null,
+    "effective_date": null,
+    "percent": null,
+    "category": null
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_94",
+  "source_type": "service_provider",
+  "families": [
+   "platform_payout_pending"
+  ],
+  "expected": [
+   {
+    "kind": "income_not_confirmed",
+    "income_source": "platform_payout",
+    "amount": null,
+    "effective_date": null,
+    "percent": null,
+    "category": null
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_95",
+  "source_type": "employer",
+  "families": [
+   "salary_confirmed_on_date"
+  ],
+  "expected": [
+   {
+    "kind": "salary_confirmed",
+    "income_source": "salary",
+    "amount": "748",
+    "effective_date": "2025-11-15",
+    "percent": null,
+    "category": null
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_96",
+  "source_type": "service_provider",
+  "families": [
+   "invoice_approved_others_pending"
+  ],
+  "expected": [
+   {
+    "kind": "one_time_income_confirmed",
+    "income_source": "freelance_invoice",
+    "amount": "152000",
+    "effective_date": "2026-07-15",
+    "percent": null,
+    "category": null
+   },
+   {
+    "kind": "income_not_confirmed",
+    "income_source": "freelance_invoice",
+    "amount": null,
+    "effective_date": null,
+    "percent": null,
+    "category": null
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_97",
+  "source_type": "employer",
+  "families": [
+   "salary_confirmed_on_date",
+   "new_childcare_expense"
+  ],
+  "expected": [
+   {
+    "kind": "salary_confirmed",
+    "income_source": "salary",
+    "amount": "50160",
+    "effective_date": "2024-09-15",
+    "percent": null,
+    "category": null
+   },
+   {
+    "kind": "new_recurring_expense",
+    "income_source": "not_applicable",
+    "amount": null,
+    "effective_date": null,
+    "percent": null,
+    "category": "childcare"
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_98",
+  "source_type": "employer",
+  "families": [
+   "bonus_pending"
+  ],
+  "expected": [
+   {
+    "kind": "income_not_confirmed",
+    "income_source": "bonus",
+    "amount": null,
+    "effective_date": null,
+    "percent": null,
+    "category": null
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_99",
+  "source_type": "financial_service",
+  "families": [
+   "credit_already_settled"
+  ],
+  "expected": [
+   {
+    "kind": "credit_already_settled",
+    "income_source": "not_applicable",
+    "amount": null,
+    "effective_date": null,
+    "percent": null,
+    "category": null
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_100",
+  "source_type": "employer",
+  "families": [
+   "next_payroll_amount"
+  ],
+  "expected": [
+   {
+    "kind": "salary_next_payment_amount",
+    "income_source": "salary",
+    "amount": "2177.28",
+    "effective_date": null,
+    "percent": null,
+    "category": null
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_101",
+  "source_type": "employer",
+  "families": [
+   "salary_date_moved"
+  ],
+  "expected": [
+   {
+    "kind": "salary_date_change",
+    "income_source": "salary",
+    "amount": null,
+    "effective_date": "2025-05-23",
+    "percent": null,
+    "category": null
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_102",
+  "source_type": "employer",
+  "families": [
+   "next_payroll_amount"
+  ],
+  "expected": [
+   {
+    "kind": "salary_next_payment_amount",
+    "income_source": "salary",
+    "amount": "1193.40",
+    "effective_date": null,
+    "percent": null,
+    "category": null
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_103",
+  "source_type": "employer",
+  "families": [
+   "income_ended"
+  ],
+  "expected": [
+   {
+    "kind": "income_ended",
+    "income_source": "salary",
+    "amount": null,
+    "effective_date": null,
+    "percent": null,
+    "category": null
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_104",
+  "source_type": "employer",
+  "families": [
+   "salary_increase"
+  ],
+  "expected": [
+   {
+    "kind": "salary_amount_change",
+    "income_source": "salary",
+    "amount": "828",
+    "effective_date": "2026-07-15",
+    "percent": null,
+    "category": null
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_105",
+  "source_type": "service_provider",
+  "families": [
+   "rent_increase"
+  ],
+  "expected": [
+   {
+    "kind": "expense_percent_change",
+    "income_source": "not_applicable",
+    "amount": null,
+    "effective_date": null,
+    "percent": "12",
+    "category": "rent"
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_106",
+  "source_type": "bank",
+  "families": [
+   "bill_outstanding"
+  ],
+  "expected": [
+   {
+    "kind": "bill_still_outstanding",
+    "income_source": "not_applicable",
+    "amount": null,
+    "effective_date": null,
+    "percent": null,
+    "category": null
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_107",
+  "source_type": "employer",
+  "families": [
+   "salary_confirmed_on_date"
+  ],
+  "expected": [
+   {
+    "kind": "salary_confirmed",
+    "income_source": "salary",
+    "amount": "31900",
+    "effective_date": "2025-02-15",
+    "percent": null,
+    "category": null
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_108",
+  "source_type": "financial_service",
+  "families": [
+   "credit_already_settled"
+  ],
+  "expected": [
+   {
+    "kind": "credit_already_settled",
+    "income_source": "not_applicable",
+    "amount": null,
+    "effective_date": null,
+    "percent": null,
+    "category": null
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_109",
+  "source_type": "service_provider",
+  "families": [
+   "invoice_approved_others_pending"
+  ],
+  "expected": [
+   {
+    "kind": "one_time_income_confirmed",
+    "income_source": "freelance_invoice",
+    "amount": "2040",
+    "effective_date": "2024-12-15",
+    "percent": null,
+    "category": null
+   },
+   {
+    "kind": "income_not_confirmed",
+    "income_source": "freelance_invoice",
+    "amount": null,
+    "effective_date": null,
+    "percent": null,
+    "category": null
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_110",
+  "source_type": "financial_service",
+  "families": [
+   "credit_already_settled"
+  ],
+  "expected": [
+   {
+    "kind": "credit_already_settled",
+    "income_source": "not_applicable",
+    "amount": null,
+    "effective_date": null,
+    "percent": null,
+    "category": null
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_111",
+  "source_type": "employer",
+  "families": [
+   "salary_confirmed_on_date"
+  ],
+  "expected": [
+   {
+    "kind": "salary_confirmed",
+    "income_source": "salary",
+    "amount": "864",
+    "effective_date": "2026-07-15",
+    "percent": null,
+    "category": null
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_112",
+  "source_type": "employer",
+  "families": [
+   "next_payroll_amount",
+   "arrears_one_time"
+  ],
+  "expected": [
+   {
+    "kind": "salary_next_payment_amount",
+    "income_source": "salary",
+    "amount": "258000",
+    "effective_date": null,
+    "percent": null,
+    "category": null
+   },
+   {
+    "kind": "one_time_income_confirmed",
+    "income_source": "arrears",
+    "amount": "116100",
+    "effective_date": null,
+    "percent": null,
+    "category": null
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_113",
+  "source_type": "employer",
+  "families": [
+   "salary_confirmed_on_date",
+   "new_childcare_expense"
+  ],
+  "expected": [
+   {
+    "kind": "salary_confirmed",
+    "income_source": "salary",
+    "amount": "1529",
+    "effective_date": "2026-04-15",
+    "percent": null,
+    "category": null
+   },
+   {
+    "kind": "new_recurring_expense",
+    "income_source": "not_applicable",
+    "amount": null,
+    "effective_date": null,
+    "percent": null,
+    "category": "childcare"
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_114",
+  "source_type": "financial_service",
+  "families": [
+   "credit_already_settled"
+  ],
+  "expected": [
+   {
+    "kind": "credit_already_settled",
+    "income_source": "not_applicable",
+    "amount": null,
+    "effective_date": null,
+    "percent": null,
+    "category": null
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_115",
+  "source_type": "employer",
+  "families": [
+   "next_payroll_amount"
+  ],
+  "expected": [
+   {
+    "kind": "salary_next_payment_amount",
+    "income_source": "salary",
+    "amount": "893.75",
+    "effective_date": null,
+    "percent": null,
+    "category": null
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_116",
+  "source_type": "employer",
+  "families": [
+   "salary_confirmed_on_date"
+  ],
+  "expected": [
+   {
+    "kind": "salary_confirmed",
+    "income_source": "salary",
+    "amount": "46170000",
+    "effective_date": "2024-09-15",
+    "percent": null,
+    "category": null
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_117",
+  "source_type": "employer",
+  "families": [
+   "credit_already_settled"
+  ],
+  "expected": [
+   {
+    "kind": "credit_already_settled",
+    "income_source": "not_applicable",
+    "amount": null,
+    "effective_date": null,
+    "percent": null,
+    "category": null
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_118",
+  "source_type": "merchant",
+  "families": [
+   "bill_outstanding"
+  ],
+  "expected": [
+   {
+    "kind": "bill_still_outstanding",
+    "income_source": "not_applicable",
+    "amount": null,
+    "effective_date": null,
+    "percent": null,
+    "category": null
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_119",
+  "source_type": "employer",
+  "families": [
+   "remaining_household_salary"
+  ],
+  "expected": [
+   {
+    "kind": "income_remaining_total",
+    "income_source": "salary",
+    "amount": "1628",
+    "effective_date": null,
+    "percent": null,
+    "category": null
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_120",
+  "source_type": "employer",
+  "families": [
+   "salary_confirmed_on_date",
+   "new_childcare_expense"
+  ],
+  "expected": [
+   {
+    "kind": "salary_confirmed",
+    "income_source": "salary",
+    "amount": "84000",
+    "effective_date": "2025-05-15",
+    "percent": null,
+    "category": null
+   },
+   {
+    "kind": "new_recurring_expense",
+    "income_source": "not_applicable",
+    "amount": null,
+    "effective_date": null,
+    "percent": null,
+    "category": "childcare"
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_121",
+  "source_type": "bank",
+  "families": [
+   "bill_outstanding"
+  ],
+  "expected": [
+   {
+    "kind": "bill_still_outstanding",
+    "income_source": "not_applicable",
+    "amount": null,
+    "effective_date": null,
+    "percent": null,
+    "category": null
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_122",
+  "source_type": "employer",
+  "families": [
+   "next_payroll_amount"
+  ],
+  "expected": [
+   {
+    "kind": "salary_next_payment_amount",
+    "income_source": "salary",
+    "amount": "23940000",
+    "effective_date": null,
+    "percent": null,
+    "category": null
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_123",
+  "source_type": "service_provider",
+  "families": [
+   "platform_payout_pending"
+  ],
+  "expected": [
+   {
+    "kind": "income_not_confirmed",
+    "income_source": "platform_payout",
+    "amount": null,
+    "effective_date": null,
+    "percent": null,
+    "category": null
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_124",
+  "source_type": "employer",
+  "families": [
+   "salary_confirmed_on_date"
+  ],
+  "expected": [
+   {
+    "kind": "salary_confirmed",
+    "income_source": "salary",
+    "amount": "1672",
+    "effective_date": "2024-06-15",
+    "percent": null,
+    "category": null
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_125",
+  "source_type": "employer",
+  "families": [
+   "salary_confirmed_on_date"
+  ],
+  "expected": [
+   {
+    "kind": "salary_confirmed",
+    "income_source": "salary",
+    "amount": "26790000",
+    "effective_date": "2025-11-15",
+    "percent": null,
+    "category": null
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_126",
+  "source_type": "employer",
+  "families": [
+   "salary_increase"
+  ],
+  "expected": [
+   {
+    "kind": "salary_amount_change",
+    "income_source": "salary",
+    "amount": "29070000",
+    "effective_date": "2026-07-15",
+    "percent": null,
+    "category": null
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_127",
+  "source_type": "employer",
+  "families": [
+   "next_payroll_amount",
+   "arrears_one_time"
+  ],
+  "expected": [
+   {
+    "kind": "salary_next_payment_amount",
+    "income_source": "salary",
+    "amount": "30400000",
+    "effective_date": null,
+    "percent": null,
+    "category": null
+   },
+   {
+    "kind": "one_time_income_confirmed",
+    "income_source": "arrears",
+    "amount": "13680000",
+    "effective_date": null,
+    "percent": null,
+    "category": null
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_128",
+  "source_type": "employer",
+  "families": [
+   "base_salary_commission_pending"
+  ],
+  "expected": [
+   {
+    "kind": "salary_amount_change",
+    "income_source": "salary",
+    "amount": "44270000",
+    "effective_date": null,
+    "percent": null,
+    "category": null
+   },
+   {
+    "kind": "income_not_confirmed",
+    "income_source": "commission",
+    "amount": null,
+    "effective_date": null,
+    "percent": null,
+    "category": null
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_129",
+  "source_type": "employer",
+  "families": [
+   "income_ended"
+  ],
+  "expected": [
+   {
+    "kind": "income_ended",
+    "income_source": "salary",
+    "amount": null,
+    "effective_date": null,
+    "percent": null,
+    "category": null
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_130",
+  "source_type": "service_provider",
+  "families": [
+   "invoice_approved_others_pending"
+  ],
+  "expected": [
+   {
+    "kind": "one_time_income_confirmed",
+    "income_source": "freelance_invoice",
+    "amount": "2340",
+    "effective_date": "2024-12-15",
+    "percent": null,
+    "category": null
+   },
+   {
+    "kind": "income_not_confirmed",
+    "income_source": "freelance_invoice",
+    "amount": null,
+    "effective_date": null,
+    "percent": null,
+    "category": null
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_131",
+  "source_type": "employer",
+  "families": [
+   "salary_date_moved"
+  ],
+  "expected": [
+   {
+    "kind": "salary_date_change",
+    "income_source": "salary",
+    "amount": null,
+    "effective_date": "2025-05-23",
+    "percent": null,
+    "category": null
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_132",
+  "source_type": "employer",
+  "families": [
+   "next_payroll_amount"
+  ],
+  "expected": [
+   {
+    "kind": "salary_next_payment_amount",
+    "income_source": "salary",
+    "amount": "137150",
+    "effective_date": null,
+    "percent": null,
+    "category": null
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_133",
+  "source_type": "merchant",
+  "families": [
+   "refund_pending"
+  ],
+  "expected": [
+   {
+    "kind": "refund_not_settled",
+    "income_source": "refund",
+    "amount": null,
+    "effective_date": null,
+    "percent": null,
+    "category": null
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_134",
+  "source_type": "financial_service",
+  "families": [
+   "prize_processing"
+  ],
+  "expected": [
+   {
+    "kind": "income_not_confirmed",
+    "income_source": "prize",
+    "amount": null,
+    "effective_date": null,
+    "percent": null,
+    "category": null
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_135",
+  "source_type": "bank",
+  "families": [
+   "internal_transfer"
+  ],
+  "expected": [
+   {
+    "kind": "internal_transfer",
+    "income_source": "not_applicable",
+    "amount": null,
+    "effective_date": null,
+    "percent": null,
+    "category": null
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_136",
+  "source_type": "bank",
+  "families": [
+   "bill_outstanding"
+  ],
+  "expected": [
+   {
+    "kind": "bill_still_outstanding",
+    "income_source": "not_applicable",
+    "amount": null,
+    "effective_date": null,
+    "percent": null,
+    "category": null
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_137",
+  "source_type": "employer",
+  "families": [
+   "salary_confirmed_on_date"
+  ],
+  "expected": [
+   {
+    "kind": "salary_confirmed",
+    "income_source": "salary",
+    "amount": "1284",
+    "effective_date": "2025-11-15",
+    "percent": null,
+    "category": null
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_138",
+  "source_type": "employer",
+  "families": [
+   "next_payroll_amount"
+  ],
+  "expected": [
+   {
+    "kind": "salary_next_payment_amount",
+    "income_source": "salary",
+    "amount": "1924.56",
+    "effective_date": null,
+    "percent": null,
+    "category": null
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_139",
+  "source_type": "employer",
+  "families": [
+   "base_salary_commission_pending"
+  ],
+  "expected": [
+   {
+    "kind": "salary_amount_change",
+    "income_source": "salary",
+    "amount": "847",
+    "effective_date": null,
+    "percent": null,
+    "category": null
+   },
+   {
+    "kind": "income_not_confirmed",
+    "income_source": "commission",
+    "amount": null,
+    "effective_date": null,
+    "percent": null,
+    "category": null
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_140",
+  "source_type": "employer",
+  "families": [
+   "next_payroll_amount"
+  ],
+  "expected": [
+   {
+    "kind": "salary_next_payment_amount",
+    "income_source": "salary",
+    "amount": "1731.60",
+    "effective_date": null,
+    "percent": null,
+    "category": null
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_141",
+  "source_type": "service_provider",
+  "families": [
+   "invoice_approved_others_pending"
+  ],
+  "expected": [
+   {
+    "kind": "one_time_income_confirmed",
+    "income_source": "freelance_invoice",
+    "amount": "2376",
+    "effective_date": "2024-12-15",
+    "percent": null,
+    "category": null
+   },
+   {
+    "kind": "income_not_confirmed",
+    "income_source": "freelance_invoice",
+    "amount": null,
+    "effective_date": null,
+    "percent": null,
+    "category": null
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_142",
+  "source_type": "financial_service",
+  "families": [
+   "scam_release_fee"
+  ],
+  "expected": [
+   {
+    "kind": "suspicious_request",
+    "income_source": "not_applicable",
+    "amount": null,
+    "effective_date": null,
+    "percent": null,
+    "category": null
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_143",
+  "source_type": "employer",
+  "families": [
+   "salary_confirmed_on_date"
+  ],
+  "expected": [
+   {
+    "kind": "salary_confirmed",
+    "income_source": "salary",
+    "amount": "59000",
+    "effective_date": "2026-07-15",
+    "percent": null,
+    "category": null
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_144",
+  "source_type": "employer",
+  "families": [
+   "bonus_pending"
+  ],
+  "expected": [
+   {
+    "kind": "income_not_confirmed",
+    "income_source": "bonus",
+    "amount": null,
+    "effective_date": null,
+    "percent": null,
+    "category": null
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_145",
+  "source_type": "merchant",
+  "families": [
+   "bill_outstanding"
+  ],
+  "expected": [
+   {
+    "kind": "bill_still_outstanding",
+    "income_source": "not_applicable",
+    "amount": null,
+    "effective_date": null,
+    "percent": null,
+    "category": null
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_146",
+  "source_type": "merchant",
+  "families": [
+   "refund_pending"
+  ],
+  "expected": [
+   {
+    "kind": "refund_not_settled",
+    "income_source": "refund",
+    "amount": null,
+    "effective_date": null,
+    "percent": null,
+    "category": null
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_147",
+  "source_type": "service_provider",
+  "families": [
+   "rent_increase"
+  ],
+  "expected": [
+   {
+    "kind": "expense_percent_change",
+    "income_source": "not_applicable",
+    "amount": null,
+    "effective_date": null,
+    "percent": "12",
+    "category": "rent"
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_148",
+  "source_type": "employer",
+  "families": [
+   "next_payroll_amount"
+  ],
+  "expected": [
+   {
+    "kind": "salary_next_payment_amount",
+    "income_source": "salary",
+    "amount": "31889",
+    "effective_date": null,
+    "percent": null,
+    "category": null
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_149",
+  "source_type": "employer",
+  "families": [
+   "salary_confirmed_on_date"
+  ],
+  "expected": [
+   {
+    "kind": "salary_confirmed",
+    "income_source": "salary",
+    "amount": "145000",
+    "effective_date": "2024-09-15",
+    "percent": null,
+    "category": null
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_150",
+  "source_type": "employer",
+  "families": [
+   "credit_already_settled"
+  ],
+  "expected": [
+   {
+    "kind": "credit_already_settled",
+    "income_source": "not_applicable",
+    "amount": null,
+    "effective_date": null,
+    "percent": null,
+    "category": null
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_151",
+  "source_type": "employer",
+  "families": [
+   "salary_increase"
+  ],
+  "expected": [
+   {
+    "kind": "salary_amount_change",
+    "income_source": "salary",
+    "amount": "627",
+    "effective_date": "2026-07-15",
+    "percent": null,
+    "category": null
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_152",
+  "source_type": "merchant",
+  "families": [
+   "refund_pending"
+  ],
+  "expected": [
+   {
+    "kind": "refund_not_settled",
+    "income_source": "refund",
+    "amount": null,
+    "effective_date": null,
+    "percent": null,
+    "category": null
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_153",
+  "source_type": "employer",
+  "families": [
+   "next_payroll_amount"
+  ],
+  "expected": [
+   {
+    "kind": "salary_next_payment_amount",
+    "income_source": "salary",
+    "amount": "1750.32",
+    "effective_date": null,
+    "percent": null,
+    "category": null
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_154",
+  "source_type": "employer",
+  "families": [
+   "salary_date_moved"
+  ],
+  "expected": [
+   {
+    "kind": "salary_date_change",
+    "income_source": "salary",
+    "amount": null,
+    "effective_date": "2025-08-23",
+    "percent": null,
+    "category": null
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_155",
+  "source_type": "employer",
+  "families": [
+   "next_payroll_amount"
+  ],
+  "expected": [
+   {
+    "kind": "salary_next_payment_amount",
+    "income_source": "salary",
+    "amount": "1222.65",
+    "effective_date": null,
+    "percent": null,
+    "category": null
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_156",
+  "source_type": "employer",
+  "families": [
+   "salary_confirmed_on_date"
+  ],
+  "expected": [
+   {
+    "kind": "salary_confirmed",
+    "income_source": "salary",
+    "amount": "38190000",
+    "effective_date": "2025-11-15",
+    "percent": null,
+    "category": null
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_157",
+  "source_type": "bank",
+  "families": [
+   "bill_outstanding"
+  ],
+  "expected": [
+   {
+    "kind": "bill_still_outstanding",
+    "income_source": "not_applicable",
+    "amount": null,
+    "effective_date": null,
+    "percent": null,
+    "category": null
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_158",
+  "source_type": "service_provider",
+  "families": [
+   "platform_payout_pending"
+  ],
+  "expected": [
+   {
+    "kind": "income_not_confirmed",
+    "income_source": "platform_payout",
+    "amount": null,
+    "effective_date": null,
+    "percent": null,
+    "category": null
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_159",
+  "source_type": "employer",
+  "families": [
+   "bonus_pending"
+  ],
+  "expected": [
+   {
+    "kind": "income_not_confirmed",
+    "income_source": "bonus",
+    "amount": null,
+    "effective_date": null,
+    "percent": null,
+    "category": null
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_160",
+  "source_type": "employer",
+  "families": [
+   "income_ended"
+  ],
+  "expected": [
+   {
+    "kind": "income_ended",
+    "income_source": "salary",
+    "amount": null,
+    "effective_date": null,
+    "percent": null,
+    "category": null
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_161",
+  "source_type": "bank",
+  "families": [
+   "bill_outstanding"
+  ],
+  "expected": [
+   {
+    "kind": "bill_still_outstanding",
+    "income_source": "not_applicable",
+    "amount": null,
+    "effective_date": null,
+    "percent": null,
+    "category": null
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_162",
+  "source_type": "employer",
+  "families": [
+   "salary_confirmed_on_date"
+  ],
+  "expected": [
+   {
+    "kind": "salary_confirmed",
+    "income_source": "salary",
+    "amount": "2024",
+    "effective_date": "2026-01-15",
+    "percent": null,
+    "category": null
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_163",
+  "source_type": "financial_service",
+  "families": [
+   "investment_value"
+  ],
+  "expected": [
+   {
+    "kind": "investment_value_non_cash",
+    "income_source": "investment",
+    "amount": null,
+    "effective_date": null,
+    "percent": null,
+    "category": null
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_164",
+  "source_type": "bank",
+  "families": [
+   "bill_outstanding"
+  ],
+  "expected": [
+   {
+    "kind": "bill_still_outstanding",
+    "income_source": "not_applicable",
+    "amount": null,
+    "effective_date": null,
+    "percent": null,
+    "category": null
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_165",
+  "source_type": "employer",
+  "families": [
+   "salary_date_moved"
+  ],
+  "expected": [
+   {
+    "kind": "salary_date_change",
+    "income_source": "salary",
+    "amount": null,
+    "effective_date": "2025-02-23",
+    "percent": null,
+    "category": null
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_166",
+  "source_type": "employer",
+  "families": [
+   "income_ended"
+  ],
+  "expected": [
+   {
+    "kind": "income_ended",
+    "income_source": "salary",
+    "amount": null,
+    "effective_date": null,
+    "percent": null,
+    "category": null
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_167",
+  "source_type": "merchant",
+  "families": [
+   "refund_pending"
+  ],
+  "expected": [
+   {
+    "kind": "refund_not_settled",
+    "income_source": "refund",
+    "amount": null,
+    "effective_date": null,
+    "percent": null,
+    "category": null
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_168",
+  "source_type": "service_provider",
+  "families": [
+   "platform_payout_pending"
+  ],
+  "expected": [
+   {
+    "kind": "income_not_confirmed",
+    "income_source": "platform_payout",
+    "amount": null,
+    "effective_date": null,
+    "percent": null,
+    "category": null
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_169",
+  "source_type": "employer",
+  "families": [
+   "salary_increase"
+  ],
+  "expected": [
+   {
+    "kind": "salary_amount_change",
+    "income_source": "salary",
+    "amount": "2424",
+    "effective_date": "2026-07-15",
+    "percent": null,
+    "category": null
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_170",
+  "source_type": "employer",
+  "families": [
+   "salary_confirmed_on_date",
+   "new_childcare_expense"
+  ],
+  "expected": [
+   {
+    "kind": "salary_confirmed",
+    "income_source": "salary",
+    "amount": "1914",
+    "effective_date": "2026-04-15",
+    "percent": null,
+    "category": null
+   },
+   {
+    "kind": "new_recurring_expense",
+    "income_source": "not_applicable",
+    "amount": null,
+    "effective_date": null,
+    "percent": null,
+    "category": "childcare"
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_171",
+  "source_type": "employer",
+  "families": [
+   "next_payroll_amount"
+  ],
+  "expected": [
+   {
+    "kind": "salary_next_payment_amount",
+    "income_source": "salary",
+    "amount": "1346.40",
+    "effective_date": null,
+    "percent": null,
+    "category": null
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_172",
+  "source_type": "merchant",
+  "families": [
+   "refund_pending"
+  ],
+  "expected": [
+   {
+    "kind": "refund_not_settled",
+    "income_source": "refund",
+    "amount": null,
+    "effective_date": null,
+    "percent": null,
+    "category": null
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_173",
+  "source_type": "service_provider",
+  "families": [
+   "invoice_approved_others_pending"
+  ],
+  "expected": [
+   {
+    "kind": "one_time_income_confirmed",
+    "income_source": "freelance_invoice",
+    "amount": "35200",
+    "effective_date": "2026-01-15",
+    "percent": null,
+    "category": null
+   },
+   {
+    "kind": "income_not_confirmed",
+    "income_source": "freelance_invoice",
+    "amount": null,
+    "effective_date": null,
+    "percent": null,
+    "category": null
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_174",
+  "source_type": "employer",
+  "families": [
+   "credit_already_settled"
+  ],
+  "expected": [
+   {
+    "kind": "credit_already_settled",
+    "income_source": "not_applicable",
+    "amount": null,
+    "effective_date": null,
+    "percent": null,
+    "category": null
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_175",
+  "source_type": "service_provider",
+  "families": [
+   "rent_increase"
+  ],
+  "expected": [
+   {
+    "kind": "expense_percent_change",
+    "income_source": "not_applicable",
+    "amount": null,
+    "effective_date": null,
+    "percent": "12",
+    "category": "rent"
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_176",
+  "source_type": "employer",
+  "families": [
+   "next_payroll_amount",
+   "arrears_one_time"
+  ],
+  "expected": [
+   {
+    "kind": "salary_next_payment_amount",
+    "income_source": "salary",
+    "amount": "260000",
+    "effective_date": null,
+    "percent": null,
+    "category": null
+   },
+   {
+    "kind": "one_time_income_confirmed",
+    "income_source": "arrears",
+    "amount": "117000",
+    "effective_date": null,
+    "percent": null,
+    "category": null
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_177",
+  "source_type": "employer",
+  "families": [
+   "bonus_pending"
+  ],
+  "expected": [
+   {
+    "kind": "income_not_confirmed",
+    "income_source": "bonus",
+    "amount": null,
+    "effective_date": null,
+    "percent": null,
+    "category": null
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_178",
+  "source_type": "employer",
+  "families": [
+   "salary_confirmed_on_date"
+  ],
+  "expected": [
+   {
+    "kind": "salary_confirmed",
+    "income_source": "salary",
+    "amount": "30400000",
+    "effective_date": "2026-04-15",
+    "percent": null,
+    "category": null
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_179",
+  "source_type": "bank",
+  "families": [
+   "bill_outstanding"
+  ],
+  "expected": [
+   {
+    "kind": "bill_still_outstanding",
+    "income_source": "not_applicable",
+    "amount": null,
+    "effective_date": null,
+    "percent": null,
+    "category": null
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_180",
+  "source_type": "employer",
+  "families": [
+   "remaining_household_salary"
+  ],
+  "expected": [
+   {
+    "kind": "income_remaining_total",
+    "income_source": "salary",
+    "amount": "2827",
+    "effective_date": null,
+    "percent": null,
+    "category": null
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_181",
+  "source_type": "employer",
+  "families": [
+   "salary_confirmed_on_date"
+  ],
+  "expected": [
+   {
+    "kind": "salary_confirmed",
+    "income_source": "salary",
+    "amount": "2772",
+    "effective_date": "2024-06-15",
+    "percent": null,
+    "category": null
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_182",
+  "source_type": "employer",
+  "families": [
+   "salary_confirmed_on_date"
+  ],
+  "expected": [
+   {
+    "kind": "salary_confirmed",
+    "income_source": "salary",
+    "amount": "16910000",
+    "effective_date": "2025-11-15",
+    "percent": null,
+    "category": null
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_183",
+  "source_type": "bank",
+  "families": [
+   "bill_outstanding"
+  ],
+  "expected": [
+   {
+    "kind": "bill_still_outstanding",
+    "income_source": "not_applicable",
+    "amount": null,
+    "effective_date": null,
+    "percent": null,
+    "category": null
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_184",
+  "source_type": "merchant",
+  "families": [
+   "refund_pending"
+  ],
+  "expected": [
+   {
+    "kind": "refund_not_settled",
+    "income_source": "refund",
+    "amount": null,
+    "effective_date": null,
+    "percent": null,
+    "category": null
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_185",
+  "source_type": "financial_service",
+  "families": [
+   "investment_value"
+  ],
+  "expected": [
+   {
+    "kind": "investment_value_non_cash",
+    "income_source": "investment",
+    "amount": null,
+    "effective_date": null,
+    "percent": null,
+    "category": null
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_186",
+  "source_type": "employer",
+  "families": [
+   "income_ended"
+  ],
+  "expected": [
+   {
+    "kind": "income_ended",
+    "income_source": "salary",
+    "amount": null,
+    "effective_date": null,
+    "percent": null,
+    "category": null
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_187",
+  "source_type": "employer",
+  "families": [
+   "remaining_household_salary"
+  ],
+  "expected": [
+   {
+    "kind": "income_remaining_total",
+    "income_source": "salary",
+    "amount": "912",
+    "effective_date": null,
+    "percent": null,
+    "category": null
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_188",
+  "source_type": "employer",
+  "families": [
+   "salary_confirmed_on_date"
+  ],
+  "expected": [
+   {
+    "kind": "salary_confirmed",
+    "income_source": "salary",
+    "amount": "62000",
+    "effective_date": "2026-01-15",
+    "percent": null,
+    "category": null
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_189",
+  "source_type": "employer",
+  "families": [
+   "income_ended"
+  ],
+  "expected": [
+   {
+    "kind": "income_ended",
+    "income_source": "salary",
+    "amount": null,
+    "effective_date": null,
+    "percent": null,
+    "category": null
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_190",
+  "source_type": "employer",
+  "families": [
+   "salary_confirmed_on_date"
+  ],
+  "expected": [
+   {
+    "kind": "salary_confirmed",
+    "income_source": "salary",
+    "amount": "968",
+    "effective_date": "2025-08-15",
+    "percent": null,
+    "category": null
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_191",
+  "source_type": "employer",
+  "families": [
+   "salary_confirmed_on_date"
+  ],
+  "expected": [
+   {
+    "kind": "salary_confirmed",
+    "income_source": "salary",
+    "amount": "1680",
+    "effective_date": "2025-11-15",
+    "percent": null,
+    "category": null
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_192",
+  "source_type": "employer",
+  "families": [
+   "income_ended"
+  ],
+  "expected": [
+   {
+    "kind": "income_ended",
+    "income_source": "salary",
+    "amount": null,
+    "effective_date": null,
+    "percent": null,
+    "category": null
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_193",
+  "source_type": "employer",
+  "families": [
+   "next_payroll_amount"
+  ],
+  "expected": [
+   {
+    "kind": "salary_next_payment_amount",
+    "income_source": "salary",
+    "amount": "1528.56",
+    "effective_date": null,
+    "percent": null,
+    "category": null
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_194",
+  "source_type": "employer",
+  "families": [
+   "base_salary_commission_pending"
+  ],
+  "expected": [
+   {
+    "kind": "salary_amount_change",
+    "income_source": "salary",
+    "amount": "1548",
+    "effective_date": null,
+    "percent": null,
+    "category": null
+   },
+   {
+    "kind": "income_not_confirmed",
+    "income_source": "commission",
+    "amount": null,
+    "effective_date": null,
+    "percent": null,
+    "category": null
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_195",
+  "source_type": "employer",
+  "families": [
+   "next_payroll_amount"
+  ],
+  "expected": [
+   {
+    "kind": "salary_next_payment_amount",
+    "income_source": "salary",
+    "amount": "702",
+    "effective_date": null,
+    "percent": null,
+    "category": null
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_196",
+  "source_type": "employer",
+  "families": [
+   "salary_confirmed_on_date"
+  ],
+  "expected": [
+   {
+    "kind": "salary_confirmed",
+    "income_source": "salary",
+    "amount": "53680",
+    "effective_date": "2024-12-15",
+    "percent": null,
+    "category": null
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_197",
+  "source_type": "bank",
+  "families": [
+   "bill_outstanding"
+  ],
+  "expected": [
+   {
+    "kind": "bill_still_outstanding",
+    "income_source": "not_applicable",
+    "amount": null,
+    "effective_date": null,
+    "percent": null,
+    "category": null
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_198",
+  "source_type": "bank",
+  "families": [
+   "bill_outstanding"
+  ],
+  "expected": [
+   {
+    "kind": "bill_still_outstanding",
+    "income_source": "not_applicable",
+    "amount": null,
+    "effective_date": null,
+    "percent": null,
+    "category": null
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_199",
+  "source_type": "employer",
+  "families": [
+   "bonus_pending"
+  ],
+  "expected": [
+   {
+    "kind": "income_not_confirmed",
+    "income_source": "bonus",
+    "amount": null,
+    "effective_date": null,
+    "percent": null,
+    "category": null
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_200",
+  "source_type": "employer",
+  "families": [
+   "salary_confirmed_on_date"
+  ],
+  "expected": [
+   {
+    "kind": "salary_confirmed",
+    "income_source": "salary",
+    "amount": "214000",
+    "effective_date": "2024-06-15",
+    "percent": null,
+    "category": null
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_201",
+  "source_type": "bank",
+  "families": [
+   "bill_outstanding"
+  ],
+  "expected": [
+   {
+    "kind": "bill_still_outstanding",
+    "income_source": "not_applicable",
+    "amount": null,
+    "effective_date": null,
+    "percent": null,
+    "category": null
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_202",
+  "source_type": "bank",
+  "families": [
+   "internal_transfer"
+  ],
+  "expected": [
+   {
+    "kind": "internal_transfer",
+    "income_source": "not_applicable",
+    "amount": null,
+    "effective_date": null,
+    "percent": null,
+    "category": null
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_203",
+  "source_type": "employer",
+  "families": [
+   "remaining_household_salary"
+  ],
+  "expected": [
+   {
+    "kind": "income_remaining_total",
+    "income_source": "salary",
+    "amount": "48260000",
+    "effective_date": null,
+    "percent": null,
+    "category": null
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_204",
+  "source_type": "employer",
+  "families": [
+   "salary_confirmed_on_date"
+  ],
+  "expected": [
+   {
+    "kind": "salary_confirmed",
+    "income_source": "salary",
+    "amount": "1485",
+    "effective_date": "2025-05-15",
+    "percent": null,
+    "category": null
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_205",
+  "source_type": "financial_service",
+  "families": [
+   "investment_value"
+  ],
+  "expected": [
+   {
+    "kind": "investment_value_non_cash",
+    "income_source": "investment",
+    "amount": null,
+    "effective_date": null,
+    "percent": null,
+    "category": null
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_206",
+  "source_type": "employer",
+  "families": [
+   "income_ended"
+  ],
+  "expected": [
+   {
+    "kind": "income_ended",
+    "income_source": "salary",
+    "amount": null,
+    "effective_date": null,
+    "percent": null,
+    "category": null
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_207",
+  "source_type": "financial_service",
+  "families": [
+   "investment_value"
+  ],
+  "expected": [
+   {
+    "kind": "investment_value_non_cash",
+    "income_source": "investment",
+    "amount": null,
+    "effective_date": null,
+    "percent": null,
+    "category": null
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_208",
+  "source_type": "merchant",
+  "families": [
+   "bill_outstanding"
+  ],
+  "expected": [
+   {
+    "kind": "bill_still_outstanding",
+    "income_source": "not_applicable",
+    "amount": null,
+    "effective_date": null,
+    "percent": null,
+    "category": null
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_209",
+  "source_type": "financial_service",
+  "families": [
+   "prize_processing"
+  ],
+  "expected": [
+   {
+    "kind": "income_not_confirmed",
+    "income_source": "prize",
+    "amount": null,
+    "effective_date": null,
+    "percent": null,
+    "category": null
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_210",
+  "source_type": "employer",
+  "families": [
+   "salary_confirmed_on_date"
+  ],
+  "expected": [
+   {
+    "kind": "salary_confirmed",
+    "income_source": "salary",
+    "amount": "38280",
+    "effective_date": "2025-11-15",
+    "percent": null,
+    "category": null
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_211",
+  "source_type": "employer",
+  "families": [
+   "next_payroll_amount",
+   "arrears_one_time"
+  ],
+  "expected": [
+   {
+    "kind": "salary_next_payment_amount",
+    "income_source": "salary",
+    "amount": "103000",
+    "effective_date": null,
+    "percent": null,
+    "category": null
+   },
+   {
+    "kind": "one_time_income_confirmed",
+    "income_source": "arrears",
+    "amount": "46350",
+    "effective_date": null,
+    "percent": null,
+    "category": null
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_212",
+  "source_type": "employer",
+  "families": [
+   "bonus_pending"
+  ],
+  "expected": [
+   {
+    "kind": "income_not_confirmed",
+    "income_source": "bonus",
+    "amount": null,
+    "effective_date": null,
+    "percent": null,
+    "category": null
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_213",
+  "source_type": "bank",
+  "families": [
+   "internal_transfer"
+  ],
+  "expected": [
+   {
+    "kind": "internal_transfer",
+    "income_source": "not_applicable",
+    "amount": null,
+    "effective_date": null,
+    "percent": null,
+    "category": null
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_214",
+  "source_type": "merchant",
+  "families": [
+   "refund_pending"
+  ],
+  "expected": [
+   {
+    "kind": "refund_not_settled",
+    "income_source": "refund",
+    "amount": null,
+    "effective_date": null,
+    "percent": null,
+    "category": null
+   }
+  ],
+  "note": null
+ },
+ {
+  "message_id": "message_215",
+  "source_type": "merchant",
+  "families": [
+   "refund_pending"
+  ],
+  "expected": [
+   {
+    "kind": "refund_not_settled",
+    "income_source": "refund",
+    "amount": null,
+    "effective_date": null,
+    "percent": null,
+    "category": null
+   }
+  ],
+  "note": null
+ }
+]

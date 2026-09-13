@@ -1,0 +1,18 @@
+[
+  {"image_id": "image_01", "related_event_id": "event_253", "expected_amount": "4365000", "alternatives": [], "label": "Net Pay", "note": "Payslip for the August 2019 net salary credit; net pay, not total earnings 4,780,800."},
+  {"image_id": "image_02", "related_event_id": "event_1442", "expected_amount": "100000.00", "alternatives": [], "label": "Balance Due", "note": "Outstanding rent balance (scheduled): balance still owed, not the 2,00,000 total or 1,00,000 received."},
+  {"image_id": "image_03", "related_event_id": "event_1545", "expected_amount": "41272.00", "alternatives": [], "label": "Net Amount / Cash Paid", "note": "Settled bulk grocery purchase."},
+  {"image_id": "image_04", "related_event_id": "event_1700", "expected_amount": null, "alternatives": ["2854.00"], "label": "Item Bill (total cut off)", "note": "Only the item bill of 2,854 is visible; the delivery fee and final total are cropped, so no final amount is readable. 2,854 is a lenient alternative."},
+  {"image_id": "image_05", "related_event_id": "event_1786", "expected_amount": "822.05", "alternatives": ["704.05"], "label": "Amount due after 06-Feb-2026", "note": "Pending telecom bill settles 2026-02-09, after the 6 Feb due date, so the late amount applies (financially safer). 704.05 is the on-time amount."},
+  {"image_id": "image_06", "related_event_id": "event_3051", "expected_amount": "1995.00", "alternatives": [], "label": "Total", "note": "Settled grocery tax invoice."},
+  {"image_id": "image_07", "related_event_id": "event_3231", "expected_amount": "8528.10", "alternatives": ["8528"], "label": "Total", "note": "Restaurant tax invoice; grand total printed rounded as 8528."},
+  {"image_id": "image_08", "related_event_id": "event_4535", "expected_amount": "15339.00", "alternatives": [], "label": "Total Amount Received", "note": "Settled property maintenance payment."},
+  {"image_id": "image_09", "related_event_id": "event_5170", "expected_amount": "723.00", "alternatives": [], "label": "Total Amount Received", "note": "Water bill paid."},
+  {"image_id": "image_10", "related_event_id": "event_6033", "expected_amount": "79679.26", "alternatives": [], "label": "Total / Balance Due", "note": "Pending large grocery tax invoice."},
+  {"image_id": "image_11", "related_event_id": "event_6859", "expected_amount": "3650.00", "alternatives": [], "label": "Amount Payable / Balance", "note": "Scheduled hospital bill; payable balance."},
+  {"image_id": "image_12", "related_event_id": "event_7307", "expected_amount": "33.50", "alternatives": [], "label": "Total", "note": "USD taxi fare; total, not cash paid 40.00."},
+  {"image_id": "image_13", "related_event_id": "event_7941", "expected_amount": "2298", "alternatives": [], "label": "Total paid", "note": "Tote bag order, delivery free."},
+  {"image_id": "image_14", "related_event_id": "event_9421", "expected_amount": "4543.00", "alternatives": [], "label": "TOTAL (handwritten)", "note": "Handwritten pharmacy bill; line items 1500+724+796+550+303+670 = 4543."},
+  {"image_id": "image_15", "related_event_id": "event_9806", "expected_amount": "9968.00", "alternatives": [], "label": "Grand Total (incl. taxes)", "note": "Airline ticket invoice."},
+  {"image_id": "image_16", "related_event_id": "event_10521", "expected_amount": "393.22", "alternatives": [], "label": "Total", "note": "EV charging session including GST."}
+]
