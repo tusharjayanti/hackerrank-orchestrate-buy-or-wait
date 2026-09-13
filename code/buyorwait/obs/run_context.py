@@ -21,6 +21,7 @@ class RunContext:
     llm_calls: JsonlSink
     tool_calls: JsonlSink
     guardrails: JsonlSink
+    evidence: JsonlSink
 
     @classmethod
     def create(cls, runs_dir: Path, run_id: str | None = None) -> RunContext:
@@ -34,6 +35,7 @@ class RunContext:
             llm_calls=JsonlSink(run_dir / "llm_calls.jsonl"),
             tool_calls=JsonlSink(run_dir / "tool_calls.jsonl"),
             guardrails=JsonlSink(run_dir / "guardrails.jsonl"),
+            evidence=JsonlSink(run_dir / "evidence.jsonl"),
         )
 
     def record_violations(self, violations: Iterable[GuardrailViolation]) -> None:

@@ -11,6 +11,7 @@ from pydantic import BaseModel, ConfigDict
 from ..formatting import CENT
 from ..schemas.domain import LedgerEntry, PaymentOption, Profile, PurchaseRequest
 from ..schemas.enums import AffordabilityStatus, Currency, PaymentMethod
+from ..schemas.evidence import EvidenceAdjustments
 from .forecast import CashFlow, Timeline, build_base_flows
 from .knobs import EngineKnobs
 from .plans import (
@@ -22,6 +23,7 @@ from .plans import (
     build_candidates,
     evaluate,
 )
+from .evidence_apply import apply_evidence
 from .recurrence import RecurringSeries, detect_series
 from .spending import SpendingChange, apply_changes, change_combinations, eligible_changes
 
@@ -47,6 +49,7 @@ class EngineDecision(BaseModel):
     base_flows: list[CashFlow]
     base_min_headroom: Decimal
     notes: list[str]
+    evidence: EvidenceAdjustments | None = None
 
     @property
     def payment_plan(self) -> tuple[ScheduledPayment, ...]:
@@ -123,13 +126,17 @@ def decide(
     options: Sequence[PaymentOption],
     entries: Sequence[LedgerEntry],
     knobs: EngineKnobs,
+    adjustments: EvidenceAdjustments | None = None,
 ) -> EngineDecision:
     start = request.request_date
     end = start + timedelta(days=knobs.horizon_days)
     amount = request.requested_amount
 
-    series = detect_series(entries, start, knobs)
+    excluded = frozenset(adjustments.excluded_history_event_ids) if adjustments else frozenset()
+    series = detect_series(entries, start, knobs, excluded)
     base_flows, notes = build_base_flows(entries, series, start, end, knobs)
+    if adjustments is not None:
+        base_flows = apply_evidence(base_flows, adjustments, start, end)
     timeline = Timeline(
         profile.current_available_balance, profile.minimum_balance_to_keep, base_flows, start, end, knobs.intraday_order
     )
@@ -167,4 +174,5 @@ def decide(
         base_flows=timeline.flows,
         base_min_headroom=timeline.simulate().min_headroom,
         notes=notes,
+        evidence=adjustments,
     )

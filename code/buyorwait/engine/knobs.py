@@ -37,7 +37,7 @@ class EngineKnobs(BaseModel):
     cadence_window: int = 6
     stale_cadence_multiple: float = 1.5
     monthly_cadence_range: tuple[int, int] = (27, 32)
-    estimator: Estimator = Estimator.MEAN_LAST_3
+    estimator: Estimator = Estimator.MEDIAN_ALL
     rounding: Rounding = Rounding.NONE
     intraday_order: tuple[IntradayStep, IntradayStep, IntradayStep] = ("credit", "payment", "debit")
     reserve_duplicate_suspects: bool = False

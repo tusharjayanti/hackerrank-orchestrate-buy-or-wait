@@ -1,8 +1,8 @@
 """Eval harness CLI.
 
 Usage (from the repo root):
-    python code/evaluation/main.py --suite samples [--knobs knobs.json]    # S1: score the 25 solved samples
-    python code/evaluation/main.py --suite invariants [--output output.csv] # S3: contract + completeness checks
+    python code/evaluation/main.py --suite samples [--evidence] [--knobs knobs.json]  # S1: score the 25 solved samples
+    python code/evaluation/main.py --suite invariants [--output output.csv]           # S3: contract + completeness checks
 """
 
 from __future__ import annotations
@@ -18,7 +18,9 @@ from buyorwait.config import Settings  # noqa: E402
 from buyorwait.engine.knobs import EngineKnobs  # noqa: E402
 from buyorwait.evals.scoring import write_report  # noqa: E402
 from buyorwait.evals.suites import run_invariants, run_samples  # noqa: E402
+from buyorwait.evidence.extract import EvidenceExtractor  # noqa: E402
 from buyorwait.ingest.loaders import load_dataset  # noqa: E402
+from buyorwait.obs.llm_client import LLMClient  # noqa: E402
 from buyorwait.obs.logging import configure_logging  # noqa: E402
 from buyorwait.obs.run_context import RunContext  # noqa: E402
 from buyorwait.pipeline import EnginePipeline  # noqa: E402
@@ -28,6 +30,7 @@ def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description="Buy or Wait? eval harness")
     parser.add_argument("--suite", choices=["samples", "invariants"], default="samples")
     parser.add_argument("--knobs", type=Path, default=None, help="JSON file with EngineKnobs overrides")
+    parser.add_argument("--evidence", action="store_true", help="use Claude evidence extraction (disk-cached)")
     parser.add_argument("--output", type=Path, default=None, help="output.csv to check (invariants suite)")
     parser.add_argument("--run-id", default=None)
     parser.add_argument("--show", type=int, default=40, help="max mismatch lines to print")
@@ -45,7 +48,8 @@ def main(argv: list[str] | None = None) -> int:
         return 1 if violations else 0
 
     knobs = EngineKnobs.model_validate_json(args.knobs.read_text()) if args.knobs else EngineKnobs()
-    report, _ = run_samples(EnginePipeline(dataset, knobs, tracer=run.tracer), run.run_id)
+    evidence = EvidenceExtractor(LLMClient(settings, run), settings, dataset, run).extract_all() if args.evidence else None
+    report, _ = run_samples(EnginePipeline(dataset, knobs, tracer=run.tracer, evidence=evidence), run.run_id)
     write_report(report, run.run_dir / "eval")
     print(f"Samples composite {report.composite:.3f} | rows fully correct {report.exact_rows}/{len(report.requests)}")
     for field, accuracy in report.field_accuracy.items():

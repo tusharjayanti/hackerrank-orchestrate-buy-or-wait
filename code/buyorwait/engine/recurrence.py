@@ -72,7 +72,9 @@ class RecurringSeries(BaseModel):
                 days.append(day)
 
 
-def group_history(entries: Iterable[LedgerEntry], as_of: date, knobs: EngineKnobs) -> dict[str, list[LedgerEntry]]:
+def group_history(
+    entries: Iterable[LedgerEntry], as_of: date, knobs: EngineKnobs, excluded_event_ids: frozenset[str] = frozenset()
+) -> dict[str, list[LedgerEntry]]:
     """Group settled history into candidate series.
 
     Spending rotates descriptions within a category, so debits group by category and flexibility.
@@ -82,7 +84,7 @@ def group_history(entries: Iterable[LedgerEntry], as_of: date, knobs: EngineKnob
     groups: dict[str, list[LedgerEntry]] = defaultdict(list)
     credits_by_category: dict[tuple[EventType, str], list[LedgerEntry]] = defaultdict(list)
     for entry in entries:
-        if not is_history(entry, as_of):
+        if not is_history(entry, as_of, excluded_event_ids):
             continue
         if entry.direction is Direction.CREDIT:
             credits_by_category[(entry.event_type, entry.category)].append(entry)
@@ -101,9 +103,12 @@ def group_history(entries: Iterable[LedgerEntry], as_of: date, knobs: EngineKnob
     return groups
 
 
-def is_history(entry: LedgerEntry, as_of: date) -> bool:
+def is_history(entry: LedgerEntry, as_of: date, excluded_event_ids: frozenset[str] = frozenset()) -> bool:
+    """Settled standalone cash history. Blank-amount events are one-off documents and evidence-excluded events (internal transfers) never recur."""
     return (
-        entry.treatment is CashTreatment.SETTLED
+        entry.event_id not in excluded_event_ids
+        and entry.original_amount is not None
+        and entry.treatment is CashTreatment.SETTLED
         and entry.lifecycle_role is LifecycleRole.STANDALONE
         and entry.amount_home is not None
         and entry.cash_date <= as_of
@@ -149,8 +154,10 @@ def estimate_amount(amounts: list[Decimal], knobs: EngineKnobs) -> tuple[Decimal
     return round_amount(value, knobs.rounding), False
 
 
-def detect_series(entries: Iterable[LedgerEntry], as_of: date, knobs: EngineKnobs) -> list[RecurringSeries]:
-    groups = group_history(entries, as_of, knobs)
+def detect_series(
+    entries: Iterable[LedgerEntry], as_of: date, knobs: EngineKnobs, excluded_event_ids: frozenset[str] = frozenset()
+) -> list[RecurringSeries]:
+    groups = group_history(entries, as_of, knobs, excluded_event_ids)
     low, high = knobs.monthly_cadence_range
     detected: list[RecurringSeries] = []
     for key, members in sorted(groups.items()):
