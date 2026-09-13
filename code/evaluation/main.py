@@ -55,10 +55,10 @@ def main(argv: list[str] | None = None) -> int:
     evidence = EvidenceExtractor(llm, settings, dataset, run).extract_all() if args.evidence else None
     pipeline = EnginePipeline(dataset, knobs, tracer=run.tracer, evidence=evidence)
     if args.mode == "agent":
-        results = AgentRunner(pipeline, DecisionAgent(llm, settings, run), evidence, settings.concurrency).run(dataset.sample_requests)
+        results = AgentRunner(pipeline, DecisionAgent(llm, settings, run), evidence, settings.concurrency, settings.agent_scope).run(dataset.sample_requests)
         evaluations = [score_row(dataset.sample_expected[r.request.request_id], r.row, r.fell_back) for r in results]
         report = build_report(run.run_id, "samples-agent", knobs.model_dump(mode="json"), evaluations)
-        print(f"Agent accepted {sum(1 for r in results if not r.fell_back)}/{len(results)}")
+        print(f"Agent ran on {sum(r.agent_used for r in results)}/{len(results)}; fallbacks {sum(r.fell_back for r in results)}")
     else:
         report, _ = run_samples(pipeline, run.run_id)
     write_report(report, run.run_dir / "eval")

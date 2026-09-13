@@ -84,7 +84,7 @@ def main(argv: list[str] | None = None) -> int:
             traces_dir.mkdir(exist_ok=True)
 
             if args.mode == "agent" and llm is not None:
-                runner = AgentRunner(pipeline, DecisionAgent(llm, settings, run), evidence, settings.concurrency)
+                runner = AgentRunner(pipeline, DecisionAgent(llm, settings, run), evidence, settings.concurrency, settings.agent_scope)
                 with run.tracer.span("agent.all", **{"requests.count": len(dataset.requests)}):
                     agent_results = runner.run(dataset.requests)
                 for result in agent_results:
@@ -126,7 +126,8 @@ def main(argv: list[str] | None = None) -> int:
     if agent_results:
         outcomes = [result.outcome for result in agent_results if result.outcome is not None]
         print(
-            f"Agent: {sum(o.accepted for o in outcomes)}/{len(agent_results)} accepted, {sum(o.repairs for o in outcomes)} repairs, "
+            f"Agent (scope {settings.agent_scope}): ran on {sum(r.agent_used for r in agent_results)}/{len(agent_results)} requests, "
+            f"{sum(o.accepted for o in outcomes)} accepted, {sum(o.repairs for o in outcomes)} repairs, "
             f"{sum(result.scenario_id != 'base' for result in agent_results)} alternative scenarios chosen, "
             f"{sum(o.cached_replay for o in outcomes)} replayed from cache"
         )

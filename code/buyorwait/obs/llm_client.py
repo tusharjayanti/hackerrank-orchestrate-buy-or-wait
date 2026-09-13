@@ -142,7 +142,8 @@ class LLMClient:
             return parsed
 
     def create(self, *, purpose: str, prompt_version: str, request_id: str | None = None, **params: Any) -> Any:
-        """Uncached Messages API call (agent tool-use turns)."""
+        """Uncached Messages API call (agent tool-use turns). Prompt caching is not requested: each request's
+        context is unique, so cache writes cost a premium without later reads."""
         params = {"model": self.model, **params}
         prompt_sha = hashlib.sha256(canonical_json({"params": params, "prompt_version": prompt_version}).encode()).hexdigest()
         with self._run.tracer.span(f"llm.{purpose}", request_id=request_id, **self._request_attributes(purpose)) as span:

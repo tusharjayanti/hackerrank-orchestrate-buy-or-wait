@@ -123,3 +123,17 @@ def test_evidence_ambiguities_become_scenarios(dataset, ledger):
     pipeline = EnginePipeline(dataset, ledger=ledger)
     ids = [s.scenario_id for s in detect_scenarios(pipeline.ledger[request.user_id], request, pipeline.knobs, [fact])]
     assert ids == ["base", "reduced_pay_continues"]
+
+
+def test_runner_skips_the_agent_when_there_is_nothing_to_judge(dataset, ledger):
+    from buyorwait.agent.runner import AgentRunner
+
+    class NoCalls:
+        def decide(self, context):
+            raise AssertionError("the agent must not be called without alternative readings")
+
+    pipeline = EnginePipeline(dataset, ledger=ledger)
+    request = next(r for r in dataset.sample_requests if r.request_id == "request_09")
+    (result,) = AgentRunner(pipeline, NoCalls(), None, 2).run([request])
+    assert result.outcome is None and not result.fell_back and not result.agent_used
+    assert result.row == pipeline.run_request(request).row

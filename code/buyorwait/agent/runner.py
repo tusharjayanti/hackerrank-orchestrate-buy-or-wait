@@ -35,14 +35,23 @@ class AgentResult:
     outcome: AgentOutcome | None
     scenario_id: str
     fell_back: bool
+    agent_used: bool = True
 
 
 class AgentRunner:
-    def __init__(self, pipeline: EnginePipeline, agent: DecisionAgent, evidence: EvidenceStore | None, concurrency: int) -> None:
+    def __init__(
+        self,
+        pipeline: EnginePipeline,
+        agent: DecisionAgent,
+        evidence: EvidenceStore | None,
+        concurrency: int,
+        scope: str = "ambiguous",
+    ) -> None:
         self.pipeline = pipeline
         self.agent = agent
         self.evidence = evidence
         self.concurrency = concurrency
+        self.scope = scope
 
     def prepare(self, request: PurchaseRequest) -> PreparedRequest:
         dataset = self.pipeline.dataset
@@ -61,8 +70,10 @@ class AgentRunner:
         )
         return PreparedRequest(request, results, context)
 
-    def finalize(self, prepared: PreparedRequest, outcome: AgentOutcome | None) -> AgentResult:
+    def finalize(self, prepared: PreparedRequest, outcome: AgentOutcome | None, attempted: bool = True) -> AgentResult:
         base = prepared.results[BASE_SCENARIO]
+        if not attempted:
+            return AgentResult(prepared.request, base.row, base, None, BASE_SCENARIO, fell_back=False, agent_used=False)
         if outcome is None or not outcome.accepted or outcome.submission is None:
             return AgentResult(prepared.request, base.row, base, outcome, BASE_SCENARIO, fell_back=True)
         chosen = prepared.results[outcome.submission.scenario_id]
@@ -79,13 +90,16 @@ class AgentRunner:
 
     def run(self, requests: list[PurchaseRequest]) -> list[AgentResult]:
         prepared = [self.prepare(request) for request in requests]
+        # With scope "ambiguous" the agent only runs where the engine simulated alternative readings;
+        # every other row keeps the engine's validated template explanation.
+        needs_agent = [item for item in prepared if self.scope == "all" or len(item.results) > 1]
+        outcomes: dict[str, AgentOutcome | None] = {}
         with ThreadPoolExecutor(max_workers=self.concurrency) as pool:
-            futures = [submit_in_context(pool, self.agent.decide, item.context) for item in prepared]
-            outcomes = []
-            for future in futures:
+            futures = {item.request.request_id: submit_in_context(pool, self.agent.decide, item.context) for item in needs_agent}
+            for request_id, future in futures.items():
                 try:
-                    outcomes.append(future.result())
+                    outcomes[request_id] = future.result()
                 except Exception as exc:  # noqa: BLE001 - any agent failure falls back to the engine row
-                    logger.error("agent crashed", extra={"fields": {"error": repr(exc)}})
-                    outcomes.append(None)
-        return [self.finalize(item, outcome) for item, outcome in zip(prepared, outcomes)]
+                    logger.error("agent crashed", extra={"fields": {"request_id": request_id, "error": repr(exc)}})
+                    outcomes[request_id] = None
+        return [self.finalize(item, outcomes.get(item.request.request_id), item.request.request_id in futures) for item in prepared]

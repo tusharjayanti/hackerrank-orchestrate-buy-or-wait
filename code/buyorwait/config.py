@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from pathlib import Path
+from typing import Literal
 
 from pydantic import SecretStr
 from pydantic_settings import BaseSettings, SettingsConfigDict
@@ -22,6 +23,8 @@ class Settings(BaseSettings):
     message_effort: str = "low"
     image_effort: str = "medium"
     max_agent_turns: int = 8
+    # "ambiguous": call the agent only where the engine simulated alternative readings; "all": every request.
+    agent_scope: Literal["ambiguous", "all"] = "ambiguous"
     concurrency: int = 6
 
     forecast_horizon_days: int = 90

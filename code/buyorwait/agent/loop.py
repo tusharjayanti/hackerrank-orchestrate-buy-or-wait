@@ -77,7 +77,6 @@ class DecisionAgent:
                     tools=TOOLS,
                     messages=messages,
                     output_config={"effort": self.settings.agent_effort},
-                    cache_control={"type": "ephemeral"},
                 )
             except LLMError as exc:
                 outcome.error = str(exc)
