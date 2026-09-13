@@ -370,10 +370,15 @@ Dependencies: `anthropic`, `pydantic>=2`, `pydantic-settings`, `python-dotenv`, 
 | P3 evidence interpreter + G2/G3 | done | `317bdbe` |
 | P5 agent + G5, LLM-as-judge scenarios | done | `4679c48`, `ed8eb8e` |
 | Eval sets S2/S3b/S4/S5, resolver + image fixes | done | `0378c3b` |
-| P4 calibration | partial: stale cutoff 1.5, median estimator; variable-spending convention not reproduced | - |
+| P4 calibration | partial: stale cutoff 1.5, median estimator, month-end forecast horizon | - |
+| Forecast horizon fix: safety window ends at the third calendar month-end | done | `d6ab7b5` |
+| Cost cuts: agent only on ambiguous requests, no agent prompt caching | done | `98508e7` |
 
-**Sample scores (S1, 25 solved samples):** composite 0.693 — status 0.80, method 0.84, plan 0.80, earliest date 0.76,
-spending changes 0.84, amount_safe_to_pay 0.12 (the answer key's variable-spending estimate is not reproduced).
+**Sample scores (S1, 25 solved samples):** composite 0.767 (was 0.693) — status 0.88, method 0.92, plan 0.88,
+earliest date 0.88, spending changes 0.88, amount_safe_to_pay 0.16 exact (mean relative error 3.1%).
+Root cause of the earlier gap: the answer key's 90-day safety window ends at the last day of the request month plus two
+months, not request_date + 90 days (request_05, with no income, matches the key's spending through that month-end).
+The fix holds on an odd/even sample hold-out (odd 0.679 → 0.731, even 0.708 → 0.806).
 
 **Eval sets:** S2 synthetic 12/12; S3b metamorphic 0 violations over all requests; S4 evidence gold: forecast facts
 precision 0.990 / recall 1.000, amounts and dates 1.000; S5 red team 14/14 attacks blocked, 0 rows changed by
@@ -383,7 +388,8 @@ no-effect facts.
 charges, whether reduced/temporary pay continues beyond the named payroll, and whether an undated confirmed one-time
 amount is counted — using the conflict rules (explicit amendment > newer record > settled > financially safer).
 
-**Final run (final-2, commit `0378c3b`):** 508 claude-sonnet-5 calls, 1.84M tokens, about $5.53 ($0.022 per request); 250/250 agent submissions accepted, 0 fallbacks, 0 contract violations.
+**Final run (final-3, commit `98508e7`):** 286 claude-sonnet-5 calls, 1.01M tokens, about $2.71 ($0.011 per request); the agent ran on the 32 of 250 requests with alternative readings (32 accepted, 0 repairs, 0 fallbacks); 0 contract violations. The previous run with the agent on every request (final-2) cost $5.53.
 
-**Known limitations:** amount_safe_to_pay rarely matches the samples exactly; images whose two reads agree on a wrong
+**Known limitations:** amount_safe_to_pay is usually within a few percent but rarely exact, because everyday-spending
+estimates only approximate the answer key's base amounts; images whose two reads agree on a wrong
 digit cannot be caught by read agreement; new recurring expenses without an amount (e.g. childcare) are not invented.

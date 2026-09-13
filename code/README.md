@@ -17,6 +17,8 @@ cp code/.env.example .env                                      # then set ANTHRO
 ```
 
 The API key is read only from the environment / `.env` (never committed). Model: `claude-sonnet-5` (override with `MODEL`).
+The decision agent runs only on requests where the engine found an ambiguity to judge; set `AGENT_SCOPE=all` to also
+have it write the explanation for every other request.
 
 ## Run
 
