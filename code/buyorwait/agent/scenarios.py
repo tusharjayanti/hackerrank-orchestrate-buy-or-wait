@@ -9,7 +9,7 @@ from collections.abc import Sequence
 from dataclasses import dataclass
 from datetime import timedelta
 
-from ..engine.knobs import EngineKnobs
+from ..engine.knobs import EngineKnobs, horizon_end
 from ..schemas.domain import LedgerEntry, PurchaseRequest
 from ..schemas.enums import CashTreatment
 from ..schemas.evidence import AcceptedFact, EvidenceKind
@@ -35,7 +35,7 @@ def detect_scenarios(
             knobs,
         )
     ]
-    end = request.request_date + timedelta(days=knobs.horizon_days)
+    end = horizon_end(request.request_date, knobs)
     duplicates = [
         entry.event_id
         for entry in entries

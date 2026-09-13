@@ -156,3 +156,11 @@ def test_formatting_matches_sample_conventions():
     assert format_safe_amount(Decimal("0")) == "0"
     assert format_money(Decimal("15952906.67"), "IDR") == "IDR 15,952,906.67"
     assert format_money(Decimal("93000"), "INR") == "INR 93,000"
+
+
+def test_forecast_period_ends_at_the_third_calendar_month_end():
+    from buyorwait.engine.knobs import EngineKnobs, horizon_end
+
+    assert horizon_end(date(2025, 11, 6), EngineKnobs()) == date(2026, 1, 31)
+    assert horizon_end(date(2024, 12, 6), EngineKnobs()) == date(2025, 2, 28)
+    assert horizon_end(date(2024, 12, 6), EngineKnobs(horizon_mode="days")) == date(2025, 3, 6)

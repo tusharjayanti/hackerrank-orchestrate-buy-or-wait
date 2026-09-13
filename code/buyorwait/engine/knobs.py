@@ -3,6 +3,8 @@
 from __future__ import annotations
 
 from enum import StrEnum
+import calendar
+from datetime import date, timedelta
 from typing import Literal
 
 from pydantic import BaseModel, ConfigDict
@@ -33,6 +35,10 @@ class EngineKnobs(BaseModel):
     model_config = ConfigDict(frozen=True, extra="forbid")
 
     horizon_days: int = 90
+    # "days": request_date + horizon_days. "month_end": last day of the calendar month that ends the
+    # forecast period (request month + horizon_months - 1).
+    horizon_mode: Literal["days", "month_end"] = "month_end"
+    horizon_months: int = 3
     min_occurrences: int = 3
     cadence_window: int = 6
     stale_cadence_multiple: float = 1.5
@@ -48,3 +54,12 @@ class EngineKnobs(BaseModel):
     reduced_pay_continues: bool = False
     require_deadline: bool = True
     max_spending_changes: int = 3
+
+
+def horizon_end(start: date, knobs: EngineKnobs) -> date:
+    """Last day included in the forecast period."""
+    if knobs.horizon_mode == "days":
+        return start + timedelta(days=knobs.horizon_days)
+    month_index = start.month - 1 + knobs.horizon_months - 1
+    year, month = start.year + month_index // 12, month_index % 12 + 1
+    return date(year, month, calendar.monthrange(year, month)[1])

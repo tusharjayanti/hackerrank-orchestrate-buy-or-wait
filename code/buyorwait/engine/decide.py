@@ -13,7 +13,7 @@ from ..schemas.domain import LedgerEntry, PaymentOption, Profile, PurchaseReques
 from ..schemas.enums import AffordabilityStatus, Currency, PaymentMethod
 from ..schemas.evidence import EvidenceAdjustments
 from .forecast import CashFlow, Timeline, build_base_flows
-from .knobs import EngineKnobs
+from .knobs import EngineKnobs, horizon_end
 from .plans import (
     CandidatePlan,
     ExcludedCandidate,
@@ -129,7 +129,7 @@ def decide(
     adjustments: EvidenceAdjustments | None = None,
 ) -> EngineDecision:
     start = request.request_date
-    end = start + timedelta(days=knobs.horizon_days)
+    end = horizon_end(start, knobs)
     amount = request.requested_amount
 
     excluded = frozenset(adjustments.excluded_history_event_ids) if adjustments else frozenset()
