@@ -318,20 +318,25 @@ A single `LLMClient` wrapper is the only code that calls the Anthropic SDK. It r
 ---
 
 ## 8. Code layout
+Modules live in the `buyorwait` package. A top-level package named `code` would clash with Python's built-in `code` module.
 ```
 code/
-  main.py  config.py  DESIGN.md  README.md  requirements.txt  .env.example
-  schemas/    enums.py domain.py wire.py validated.py eval.py obs.py
-  ingest/     loaders.py fx.py lifecycle.py context_pack.py
-  evidence/   messages.py images.py authority.py resolver.py prompts/
-  engine/     recurrence.py income.py forecast.py candidates.py spending.py ranking.py mapping.py
-  agent/      loop.py tools.py prompts/system.md
-  guardrails/ contract.py grounding.py injection.py
-  output/     writer.py explain.py
-  obs/        logging.py tracing.py llm_client.py usage_report.py
+  main.py  DESIGN.md  README.md  requirements.txt  .env.example  pytest.ini
+  buyorwait/
+    config.py                      # pydantic-settings Settings (reads <repo>/.env)
+    schemas/    enums.py domain.py obs.py  (+ wire.py validated.py eval.py in later phases)
+    ingest/     loaders.py fx.py lifecycle.py  (+ context_pack.py)
+    evidence/   messages.py images.py authority.py resolver.py prompts/
+    engine/     recurrence.py income.py forecast.py candidates.py spending.py ranking.py mapping.py
+    agent/      loop.py tools.py prompts/system.md
+    guardrails/ input_checks.py (G1)  contract.py grounding.py injection.py
+    output/     writer.py explain.py
+    obs/        logging.py tracing.py sinks.py redaction.py run_context.py pricing.py llm_client.py usage_report.py
   evaluation/ main.py suites/ fixtures/ redteam/ usage_report.md
   tests/
 ```
+Setup: `uv venv .venv --python 3.12 && uv pip install --python .venv/bin/python -r code/requirements.txt`.
+Tests: `cd code && ../.venv/bin/pytest -q`.
 Dependencies: `anthropic`, `pydantic>=2`, `pydantic-settings`, `python-dotenv`, `pytest`.
 
 ---
