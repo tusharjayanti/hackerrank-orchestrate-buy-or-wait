@@ -53,7 +53,7 @@ dataset/ ─▶ Ingestion   Pydantic models, dated FX, lifecycle resolution (can
 - **Untrusted evidence:** a source-authority matrix (for example, only an employer can change salary), an
   injection and scam scanner, verbatim-citation checks, and two image reads that must agree.
 - **Cost:** evidence extraction runs through the Message Batches API at 50% of list price, and the agent runs only
-  on the 45 turns where the engine flagged a real ambiguity.
+  on the 32 of 250 requests where the engine flagged a real ambiguity.
 - **Evaluation:** sample scoring, output-contract invariants, evidence gold labels, synthetic and metamorphic tests,
   and a red-team set of 14 injection attacks, all blocked.
 
